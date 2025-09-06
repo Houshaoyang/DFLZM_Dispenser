@@ -1,0 +1,15 @@
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
+dflzm_dispenser\queue.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stdlib.h
+dflzm_dispenser\queue.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\string.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+dflzm_dispenser\queue.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stddef.h
+dflzm_dispenser\queue.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stdint.h
+dflzm_dispenser\queue.o: ../Core/Inc/FreeRTOSConfig.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0/portmacro.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+dflzm_dispenser\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
