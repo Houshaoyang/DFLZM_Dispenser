@@ -5,6 +5,7 @@
 #include "sm.h"
 #include "gpio.h"
 #include "GpioCtrlMacros.h"
+#include "flash.h"
 
 /**************define struct*********/
 typedef struct{
@@ -20,7 +21,7 @@ void (*alarm_timeout_cb)(void);
 typedef void (*alarm_cb)(void);
 
 typedef struct {
-    uint8_t frequece;
+    uint8_t HZ;
     uint16_t pulse_cnt;
 }pulse_counter;
 

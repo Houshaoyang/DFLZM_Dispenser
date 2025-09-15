@@ -141,10 +141,14 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC_Init();
   MX_TIM16_Init();
+  MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim16);
+//	HAL_TIM_Base_Start_IT(&htim17);
 	System_Init();
 	HAL_ADCEx_Calibration_Start(&hadc);
+//	save_flash_data();
+//	read_flash_data();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -209,12 +213,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(GPIO_Pin);
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
-		heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
-		if(heating_cnt < (heating_pwr/10))
+		heating_cnt = (heating_cnt + 1) % 20;		//pump power control pwm frequence 1000/5 HZ 
+		if(heating_cnt < (heating_pwr/5))
 		{
 			HAL_GPIO_WritePin(HEATER,ON);
-		}  
-		else HAL_GPIO_WritePin(HEATER,OFF);  // 
+			HAL_TIM_Base_Start_IT(&htim17);			
+		}		
 	}
 	
 	if(GPIO_Pin == GPIO_PIN_3)		//flow_detect_pin count pulse
@@ -245,14 +249,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 1 */
 	  if (htim->Instance == TIM16) {
-        if(time_cnt_1s < 1000)  //1s timer for alarm
+				if(time_cnt_1s < 1000)  //1s timer for alarm
         {
             time_cnt_1s++;
 				}else{
             AlarmTimeBase_1s = 1;
-            time_cnt_1s = 0;
-					  iFlow.frequece = iFlow.pulse_cnt;//???????
-            iFlow.pulse_cnt =0;  //????????????
+            time_cnt_1s = 0;  
 				}
 				
         if(time_cnt_10ms < 10) //scan key state in every 10ms
@@ -260,28 +262,32 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
           time_cnt_10ms++;
         }else 
 				{
-              time_cnt_10ms = 0;
-              Keys_Scan();
-						#ifdef ENABLE_DEBUG_DISPLAY
-              display();
-						#endif
-          }
+					time_cnt_10ms = 0;
+					Keys_Scan();
+        }
  
         if(time_cnt_500ms < LED_BLINK_FREQ_MS){  //500ms for led blink
             time_cnt_500ms++;
         }else{
             LedTimeBase_500ms = 1;
             time_cnt_500ms = 0;
+						iFlow.HZ = 2*iFlow.pulse_cnt;//???????
+            iFlow.pulse_cnt =0;  //????????????		
         }
 				
-//				HAL_GPIO_TogglePin(PUMP);
-        pump_cnt = (pump_cnt + 1) % 5;		//pump power control pwm frequence 1000/5 HZ 
-        if(pump_cnt < (pump_speed/20))
+        pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
+        if(pump_cnt < (pump_speed/10))
 				{
 					HAL_GPIO_WritePin(PUMP,ON);
 				}  
 				else HAL_GPIO_WritePin(PUMP,OFF);  // 
 		}
+		
+		if (htim->Instance == TIM17) {
+			HAL_TIM_Base_Stop_IT(&htim17);
+			HAL_GPIO_WritePin(HEATER,OFF);
+		}
+		
   /* USER CODE END Callback 1 */
 }
 

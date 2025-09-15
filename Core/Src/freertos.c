@@ -134,8 +134,9 @@ void StartDefaultTask(void const * argument)
 		Keys_handler();
 		display();
 		loop_fun();
+    safety_check();
 		Alarm_Process();
-		led_blink();		
+		led_blink();
 		osDelay(1);
   }
   /* USER CODE END StartDefaultTask */

@@ -6,7 +6,7 @@
 //===========================================================
 //----------Temperature comparison table (ADC values corresponding to 0 to 100℃)
 static const unsigned int temptab[]={  //0 to 100℃ 
-	2809, 2764, 2718, 2671, 2625, 2577, 2530, 2482, 2434, 2386, //0-9
+  2809, 2764, 2718, 2671, 2625, 2577, 2530, 2482, 2434, 2386, //0-9
   2337, 2289, 2241, 2193, 2145, 2097, 2049, 2002, 1955, 1908,
   1862, 1816, 1771, 1726, 1682, 1638, 1595, 1553, 1512, 1471,
   1431, 1391, 1353, 1315, 1278, 1241, 1206, 1171, 1137, 1104,
@@ -76,7 +76,7 @@ const uint8_t Segment_Code[]={
 0x00, // 0B00000000 (C)
 0x00, // 0B00000000 (D)
 0x79, // 0B01111001 (E)
-0x00 	// 0B00000000 (F)
+0x00  // 0B00000000 (F)
 };
 #endif
 
@@ -180,10 +180,11 @@ void System_Init(void)
 	mDispenser.CurrentState = STATE_CHILD_LOCK;          //Initial state is child lock state
 	mDispenser.temp_setting = target_temper_tbl[mDispenser.temper_index];  //Set initial target temperature
 	mDispenser.disinfect_finish_flag = ON;               //Disinfection completion flag initialized to ON
-	
+	mDispenser.fault_code = NO_FAULT;
+
 	heating_enabled = 0;                                 //Disable heating
-	heating_pwr = 0;                                    //Set heating power to xx%
-	pump_speed = 0;                                     //Set pump speed to xx%
+	heating_pwr = 20;                                    //Set heating power to xx%
+	pump_speed = 50;                                     //Set pump speed to xx%
 	HAL_GPIO_WritePin(TW_Valve, GPIO_PIN_RESET);        //set three way valve state,GPIO_PIN_RESET: water out, GPIO_PIN_SET: water loop back
 
 	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);  //Set all LEDs initial states
@@ -195,12 +196,13 @@ void System_Init(void)
  */
 void waterout_process(void)
 {
+	if(mDispenser.fault_code == ERR_WATER_OUTLET_STATE) return;
 	heating_enabled = 1;
 	HAL_GPIO_WritePin(HEATER,OFF);
   pump_speed = 100;
 	
 #ifdef ENABLE_DEBUG_PID	
-  calculate_pid();
+	calculate_pid();
 #endif
 }
 
@@ -210,9 +212,13 @@ void waterout_process(void)
  */
 void preheat_process(void)
 {	
-	#ifdef ENABLE_DEBUG_PID
-	calculate_pid();
-	#endif
+	if(ptc_out.temper >= 45){
+		WaterDispenser_Eventhandler(&mDispenser,CHILD_LOCK_PRESS_EVT);//goto lock state
+	}else{
+		#ifdef ENABLE_DEBUG_PID
+		calculate_pid();
+		#endif
+	}
 }
 
 /**
@@ -222,23 +228,21 @@ void preheat_process(void)
  */
 void disinfect_process(void)
 {
-	if(mDispenser.disinfect_finish_flag == 0)
-	{
+	if(mDispenser.disinfect_finish_flag == 0)	{
 		#ifdef ENABLE_DEBUG_PID
      calculate_pid();
 		#endif
-	}else
-  {
-		heating_enabled = 0;
-		pump_speed = 100;
+	}else{
+		heating_enabled = 0;	//disinfect finish,stop pump,Three way valve dir :waterout
+		pump_speed = 0;
 		HAL_GPIO_WritePin(TW_Valve, GPIO_PIN_RESET);
 		heating_pwr = 0;
-  } 
+  }
 
-	if(mDispenser.disinfect_clr_water_flag == 1)  //Clear water after disinfection
-	{
+	if(mDispenser.disinfect_clr_water_flag == 1){  //Clear water after disinfection
+		if(mDispenser.fault_code == ERR_WATER_OUTLET_STATE) return;
 		pump_speed = 100;
-   }else  pump_speed = 0;						
+    }else  pump_speed = 0;						
 }
 
 /**
@@ -251,7 +255,7 @@ void loop_fun(void)
     {
 		case STATE_IDLE:                  //Idle state
 
-				break;
+			break;
 
 		case STATE_CHILD_LOCK:            //Child lock state
 
@@ -322,7 +326,7 @@ void Alarm_Start(alarm *alarm,uint8_t hh,uint8_t mm,uint8_t ss,uint8_t type_flag
 void Alarm_Cancel(alarm *alarm)
  {
 	if(alarm->state != OFF){
-    alarm->hh = 0;
+    	alarm->hh = 0;
 		alarm->mm = 0;
 		alarm->ss = 0;
 		alarm->type_flag = 0;
@@ -510,11 +514,11 @@ void set_led_status(uint8_t led_index,uint8_t status)
 	{
 		case LED_ID_CHILD_LOCK:     // Child lock LED
 				 HAL_GPIO_WritePin(LOCK_LED,status);
-			   break;
+			break;
 		
 		case LED_ID_TEMPER_CHG:        // Temperature adjustment LED
-				 HAL_GPIO_WritePin(TEMP_CHG_LED,status);
-				 break;
+				HAL_GPIO_WritePin(TEMP_CHG_LED,status);
+			break;
 		
 		case LED_ID_WATER_OUT:         // Water outlet LED
 				 HAL_GPIO_WritePin(WATEROUT_LED,status);
@@ -544,7 +548,7 @@ void set_led_status(uint8_t led_index,uint8_t status)
  */
 void set_all_leds_status(uint8_t led1_sta,uint8_t led2_sta,uint8_t led3_sta,uint8_t led4_sta,uint8_t led5_sta)
 {
-		set_led_status(LED_ID_CHILD_LOCK,led1_sta);
+	set_led_status(LED_ID_CHILD_LOCK,led1_sta);
     set_led_status(LED_ID_TEMPER_CHG,led2_sta);
     set_led_status(LED_ID_WATER_OUT,led3_sta);
     set_led_status(LED_ID_PRE_HEAT,led4_sta);
@@ -572,7 +576,7 @@ void led_blink(void)
 						 HAL_GPIO_TogglePin(LOCK_LED);  //Toggle LED level
 						 break;
 				
-    		case LED_ID_TEMPER_CHG:        // Temperature adjustment LED blinking
+    			case LED_ID_TEMPER_CHG:        // Temperature adjustment LED blinking
 						 HAL_GPIO_TogglePin(TEMP_CHG_LED);
 					break;
 				
@@ -580,7 +584,7 @@ void led_blink(void)
 					   HAL_GPIO_TogglePin(WATEROUT_LED);
 					break;
 				
-			  case LED_ID_PRE_HEAT:          // Preheat LED blinking
+				  case LED_ID_PRE_HEAT:          // Preheat LED blinking
 					   HAL_GPIO_TogglePin(PREHEAT_LED);
 					break;
 					
@@ -594,7 +598,6 @@ void led_blink(void)
 			}
 		}
 	}
-	
 }
 
 /**
@@ -605,11 +608,11 @@ void led_blink(void)
 void DelayUs(uint32_t us) 
 {
 	if (us >= 1000) {
-			HAL_Delay(us / 1000);  //Millisecond level delay
-			us %= 1000; 
+		HAL_Delay(us / 1000);  //Millisecond level delay
+		us %= 1000; 
 	}
 	for (uint32_t i = 0; i < us * 8; i++) {  //Microsecond level delay loop
-			__NOP();  //No operation
+		__NOP();  //No operation
 	}
 }
 
@@ -620,13 +623,20 @@ void DelayUs(uint32_t us)
  */
 void display(void)
 {
-	uint8_t i,j,time=50;
-    
+	uint8_t i,j,tens_num,units_num,time=50;
+	if(mDispenser.fault_code == NO_FAULT){
+		tens_num = mDispenser.temp_setting/10;
+		units_num =mDispenser.temp_setting%10; 
+	}else
+	{
+		tens_num = 0x0E;
+		units_num =mDispenser.fault_code; 
+	}
 	//Display tens digit
 	for(i=A1;i<=H1;i++)
-  {
-		if(((Segment_Code[mDispenser.temp_setting/10]>>i)&0x01) == 1)   //If corresponding segment code bit is 1, light up the segment
-    {
+	{
+		if(((Segment_Code[tens_num]>>i)&0x01) == 1)   //If corresponding segment code bit is 1, light up the segment
+		{
 			GPIO_CONFIG(Dr1_group,Dr1,DotDecode[i][0],DotDecode[i][5]); 
 			GPIO_CONFIG(Dr2_group,Dr2,DotDecode[i][1],DotDecode[i][6]);
 			GPIO_CONFIG(Dr3_group,Dr3,DotDecode[i][2],DotDecode[i][7]);
@@ -638,13 +648,12 @@ void display(void)
 			GPIO_SET_LOW(Dr3_group,Dr3);
 			GPIO_SET_LOW(Dr4_group,Dr4);
 			GPIO_SET_LOW(Dr5_group,Dr5);         
-    }      
-  }
-		
-  //Display units digit
+		}      
+	}
+	//Display units digit
 	for(i=A1;i<=G1;i++)
 	{
-		if(((Segment_Code[mDispenser.temp_setting%10]>>i)&0x01) == 1)
+		if(((Segment_Code[units_num]>>i)&0x01) == 1)
 		{
 			j=i+8;
 			GPIO_CONFIG(Dr1_group,Dr1,DotDecode[j][0],DotDecode[j][5]); 
@@ -658,9 +667,8 @@ void display(void)
 			GPIO_SET_LOW(Dr3_group,Dr3);
 			GPIO_SET_LOW(Dr4_group,Dr4);
 			GPIO_SET_LOW(Dr5_group,Dr5); 
-    }
+			}
 	}
-	
 	//Display temperature indication
 	GPIO_CONFIG(Dr1_group,Dr1,DotDecode[H1][0],DotDecode[H1][5]); 
 	GPIO_CONFIG(Dr2_group,Dr2,DotDecode[H1][1],DotDecode[H1][6]);
@@ -732,12 +740,12 @@ void calculate_pid(void)
     // Calculate integral term
 //    pid_integral += pid_error;
 
-		if(abs(pid_error) < INTEGRAL_ENABLE_THRESHOLD)
-		{
-			pid_integral += pid_error;  // 误差小时才累积积分
-		}else{
-			pid_integral = 0;  // 误差大时清零积分，避免饱和
-		}
+	if(abs(pid_error) < INTEGRAL_ENABLE_THRESHOLD)
+	{
+		pid_integral += pid_error;  // 误差小时才累积积分
+	}else{
+		pid_integral = 0;  // 误差大时清零积分，避免饱和
+	}
     
     // Integral limit to prevent integral saturation
     if (pid_integral > 100) pid_integral = 100;
@@ -763,10 +771,10 @@ void calculate_pid(void)
  */
 void safety_check(void)
 {
-	if(heating_enabled == 1)
+	if(heating_enabled == 1 && heating_pwr > 0)
 	{
 		    // Over-temperature protection
-		if (ptc_out.temper > 98 || iFlow.frequece < 32)
+		if (ptc_out.temper > 98 || iFlow.HZ < 32)
 		{
 			// Turn off heating and water pump
 			heating_enabled = 0;                                //Disable heating
@@ -775,7 +783,7 @@ void safety_check(void)
 			pump_speed = 0;  
 			WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);    
 //			HAL_GPIO_WritePin(BUZZER,GPIO_PIN_RESET);
-    }	
+    }
 	}
 }
 #endif

@@ -2,6 +2,7 @@
 "dflzm_dispenser\startup_stm32f030x6.o"
 "dflzm_dispenser\app.o"
 "dflzm_dispenser\sm.o"
+"dflzm_dispenser\flash.o"
 "dflzm_dispenser\main.o"
 "dflzm_dispenser\gpio.o"
 "dflzm_dispenser\freertos.o"

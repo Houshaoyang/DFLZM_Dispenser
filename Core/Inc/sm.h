@@ -24,6 +24,11 @@ enum
 	EVT_NUM,
 };
 
+typedef enum{
+	NO_FAULT,
+	ERR_WATER_OUTLET_STATE,	//WATER_OUTLET fold but bump working
+}Err_code;
+
 typedef struct
 {
 	State CurrentState;					//饮水机当前状态
@@ -31,6 +36,7 @@ typedef struct
 	uint8_t disinfect_finish_flag; 		//加热消毒结束 1，未结束 0
 	uint8_t disinfect_clr_water_flag;	//清空消毒，开始清空 1，未开启清空0
 	uint8_t temper_index;
+	Err_code fault_code;
 }WaterDispenser;
 
 void WaterDispenser_Init(WaterDispenser *Dispenser);

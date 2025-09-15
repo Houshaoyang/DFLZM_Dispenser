@@ -16,4 +16,4 @@ dflzm_dispenser\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/t
 dflzm_dispenser\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 dflzm_dispenser\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 dflzm_dispenser\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-dflzm_dispenser\cmsis_os.o: D:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h
+dflzm_dispenser\cmsis_os.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
