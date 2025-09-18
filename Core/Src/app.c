@@ -182,6 +182,7 @@ void System_Init(void)
 	mDispenser.heating_enabled = 0;                                 //Disable heating
 	mDispenser.heating_pwr = 20;                                    //Set heating power to xx%
 	mDispenser.pump_speed = 50;                                     //Set pump speed to xx%
+	mDispenser.need_clear_container = 0;
 	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);        //set three way valve state,GPIO_PIN_RESET: water out, GPIO_PIN_SET: water loop back
 
 	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);  //Set all LEDs initial states
@@ -235,7 +236,8 @@ void disinfect_process(void)
 {
 	if(mDispenser.disinfect_finish_flag == 0)	{
 		#ifdef ENABLE_DEBUG_PID
-     calculate_pid();
+    calculate_pid();
+		if(mAlarm.mm < 27) mDispenser.need_clear_container =1;
 		#endif
 	}else{
 		mDispenser.heating_enabled = 0;	//disinfect finish,stop pump,Three way valve dir :waterout
@@ -799,12 +801,25 @@ void safety_check(void)
 			HAL_Delay(2000);
 		  if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ)  //check if container empty
 			{
-				mDispenser.heating_enabled = 0;                                //Disable heating
-				mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
-				mDispenser.pump_speed = 0;  
-				WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);
-				mDispenser.fault_code = ERR_WATER_SHORTAGE;
-//			HAL_GPIO_WritePin(BUZZER,GPIO_PIN_RESET);				
+					if(mDispenser.heating_pwr > 0){
+						mDispenser.fault_code = ERR_DRY_BURNING;
+					}else{
+						mDispenser.fault_code = ERR_WATER_SHORTAGE;
+					}
+//				if(mDispenser.CurrentState == STATE_DISINFECT && mDispenser.need_clear_container == 1)
+//				{
+					mDispenser.need_clear_container = 0;
+					mDispenser.disinfect_finish_flag = 0;
+					mDispenser.disinfect_clr_water_flag = 0;
+//				}else{
+					mDispenser.heating_enabled = 0;                                //Disable heating
+					mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
+					mDispenser.pump_speed = 0;  
+					WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);
+
+	//			HAL_GPIO_WritePin(BUZZER,GPIO_PIN_RESET);	
+//				}
+			
 			}
 	}
 	

@@ -18,7 +18,7 @@ enum
 	STOP_WATER_OUT,
 	DO_PRE_HEAT,
 	STOP_PRE_HEAT,
-  DO_DISINFECT, 
+	DO_DISINFECT, 
 	STOP_DISINFECT,
 	DRY_BURNING_HANDLE,
 	ENTER_IDLE,
@@ -96,6 +96,7 @@ void do_lock(WaterDispenser *Dispenser)
 	mDispenser.heating_enabled = 0;                                 //Disable heating                               //Disable heating
 	mDispenser.disinfect_finish_flag = 0;
 	mDispenser.disinfect_clr_water_flag = 0;
+	mDispenser.need_clear_container = 0;
 	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
 	mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
 	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
@@ -212,7 +213,13 @@ void do_disinfection(WaterDispenser *Dispenser)
 
 void stop_disinfection(WaterDispenser *Dispenser)
 {
-	
+	if(mDispenser.need_clear_container == 1){ //clear containter befor eixt disinfect state
+		mDispenser.CurrentState = STATE_DISINFECT;
+		mDispenser.disinfect_finish_flag = 1;
+		set_led_status(LED_ID_WATER_OUT,LED_BLINK);
+		set_led_status(LED_ID_DISINFECT,LED_ON);
+		return ;
+	}
 	mDispenser.heating_enabled = 0;                                 //Disable heating
 	mDispenser.disinfect_finish_flag = 0;
 	mDispenser.disinfect_clr_water_flag = 0;
