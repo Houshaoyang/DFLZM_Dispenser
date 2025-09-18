@@ -134,7 +134,6 @@ void StartDefaultTask(void const * argument)
 		Keys_handler();
 		display();
 		loop_fun();
-    safety_check();
 		Alarm_Process();
 		led_blink();
 		osDelay(1);
@@ -155,6 +154,7 @@ void StartKeyScan(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+		safety_check();
 		osDelay(10);
   }
   /* USER CODE END StartKeyScan */

@@ -16,6 +16,9 @@
 #define SHORT_PRESS_TIME  200   //ms  
 #define LED_BLINK_FREQ_MS 500   //ms
 
+/*****************flow HZ table*********************/
+#define FLOW_0_HZ 12 //0 flow HZ
+
 /*****************GPIO port define*********************/
 #define LOCK_LED       GPIOB,GPIO_PIN_15
 #define TEMP_CHG_LED   GPIOA,GPIO_PIN_5
@@ -34,6 +37,8 @@
 #define HEATER         GPIOA,GPIO_PIN_4
 #define Micro_SW			 GPIOA,GPIO_PIN_2
 #define TW_Valve			 GPIOB,GPIO_PIN_11
+#define TW_Valve_OUT	 GPIO_PIN_RESET
+#define TW_Valve_IN		 GPIO_PIN_SET
 #define LED1					 GPIOB,GPIO_PIN_2
 
 #define Dr1         	 GPIO_PIN_6

@@ -214,7 +214,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
 		heating_cnt = (heating_cnt + 1) % 20;		//pump power control pwm frequence 1000/5 HZ 
-		if(heating_cnt < (heating_pwr/5))
+		if(heating_cnt < (mDispenser.heating_pwr/5))
 		{
 			HAL_GPIO_WritePin(HEATER,ON);
 			HAL_TIM_Base_Start_IT(&htim17);			
@@ -276,7 +276,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         }
 				
         pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
-        if(pump_cnt < (pump_speed/10))
+        if(pump_cnt < (mDispenser.pump_speed/10))
 				{
 					HAL_GPIO_WritePin(PUMP,ON);
 				}  

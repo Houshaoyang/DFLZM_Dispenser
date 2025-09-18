@@ -70,7 +70,10 @@ typedef struct {
 
 
 typedef enum {
-    DISINFECT_ALARM = 0,      // 娑堟瘨闂归挓
+    LOCK_ALARM = 0,      //10S no action in LOCK state,goto sleep
+		IDLE_ALARM,					 //10S no action in IDLE state,goto LOCK state
+		PREHEAT_ALARM,			 //wait 3min after preheat finish, loop preheat
+		DISINFECT_ALARM,		 //20min disinfection
 }alarm_type;
 
 #define WINDOW_SIZE 10
@@ -80,9 +83,6 @@ typedef struct {
     float buffer[10];
     float temper;
 }ptc;
-
-
-
 
 /**************define global variable*********/
 extern alarm mAlarm;
@@ -96,10 +96,7 @@ extern uint32_t adc_value[2];
 
 extern volatile uint16_t Flow_Value;
 extern int pid_output;
-extern volatile unsigned char heating_enabled;        // 加热启用状态
-extern volatile unsigned char heating_pwr;        // 加热power
 extern volatile unsigned char heating_cnt;               // 占空比计数值（0-10）
-extern volatile unsigned char pump_speed;             // 水泵速度(0-100%)
 extern volatile unsigned char pump_cnt;               // 占空比计数值（0-5）
 
 extern uint8_t AlarmTimeBase_1s; //1s alarm base time  flag

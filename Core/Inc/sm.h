@@ -26,7 +26,9 @@ enum
 
 typedef enum{
 	NO_FAULT,
-	ERR_WATER_OUTLET_STATE,	//WATER_OUTLET fold but bump working
+	ERR_DRY_BURNING,				//
+	ERR_WATER_SHORTAGE,
+	ERR_WATER_OUTLET_FOLD,	//WATER_OUTLET fold but bump working
 }Err_code;
 
 typedef struct
@@ -37,6 +39,9 @@ typedef struct
 	uint8_t disinfect_clr_water_flag;	//清空消毒，开始清空 1，未开启清空0
 	uint8_t temper_index;
 	Err_code fault_code;
+	uint8_t heating_enabled;        // 
+	uint8_t heating_pwr;        // 
+	uint8_t pump_speed;             // 
 }WaterDispenser;
 
 void WaterDispenser_Init(WaterDispenser *Dispenser);
