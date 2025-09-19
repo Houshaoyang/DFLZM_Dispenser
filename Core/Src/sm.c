@@ -10,16 +10,16 @@
 
 enum
 {
-	DO_LOCK,  
-	LOCK_RELEASE,
+	ENTER_LOCK,  
+	EXIT_LOCK,
 	CHG_TARGET_TEMPER,
-	DO_WATER_OUT,
+	ENTER_WATER_OUT,
 	CLEAR_WATER,
-	STOP_WATER_OUT,
-	DO_PRE_HEAT,
-	STOP_PRE_HEAT,
-	DO_DISINFECT, 
-	STOP_DISINFECT,
+	EXIT_WATER_OUT,
+	ENTER_PRE_HEAT,
+	EXIT_PRE_HEAT,
+	ENTER_DISINFECT, 
+	EXIT_DISINFECT,
 	DRY_BURNING_HANDLE,
 	ENTER_IDLE,
 	EXIT_IDLE,
@@ -29,18 +29,18 @@ enum
 static const uint8_t state_table_idle[][NUM_COLS]=
 {
 /* Event                            Action 1               Action 2               Next state */
-/* CHILD_LOCK_PRESS_EVT */          {EXIT_IDLE,							DO_LOCK,         			STATE_CHILD_LOCK },
+/* CHILD_LOCK_PRESS_EVT */          {EXIT_IDLE,							ENTER_LOCK,         			STATE_CHILD_LOCK },
 /* TEMPER_CHG_EVT */                {CHG_TARGET_TEMPER,   	ENTER_IDLE,       	  		  STATE_IDLE },
-/* WATER_OUT_PRESS_EVT */ 		   		{EXIT_IDLE,							DO_WATER_OUT,          STATE_WATER_OUT },
-/* PRE_HEAT_PRESS_EVT */            {EXIT_IDLE,							DO_PRE_HEAT,            STATE_PRE_HEAT },
-/* DISINFECTION_PRESS_EVT */        {EXIT_IDLE,							DO_DISINFECT,          STATE_DISINFECT },
+/* WATER_OUT_PRESS_EVT */ 		   		{EXIT_IDLE,							ENTER_WATER_OUT,          STATE_WATER_OUT },
+/* PRE_HEAT_PRESS_EVT */            {EXIT_IDLE,							ENTER_PRE_HEAT,            STATE_PRE_HEAT },
+/* DISINFECTION_PRESS_EVT */        {EXIT_IDLE,							ENTER_DISINFECT,          STATE_DISINFECT },
 /* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        			  STATE_CHILD_LOCK }
 };
 
 static const uint8_t state_table_child_lock[][NUM_COLS]=
 {
 /* Event                            Action 1               Action 2               Next state */
-/* CHILD_LOCK_PRESS_EVT */          {ENTER_IDLE, 					LOCK_RELEASE,            STATE_IDLE },
+/* CHILD_LOCK_PRESS_EVT */          {ENTER_IDLE, 					 EXIT_LOCK,            STATE_IDLE },
 /* TEMPER_CHG_EVT */                {CHG_TARGET_TEMPER,	   SIGNORE,       	 STATE_CHILD_LOCK },
 /* WATER_OUT_PRESS_EVT */ 		  		{SIGNORE,     		   	 SIGNORE,        	 STATE_CHILD_LOCK },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_CHILD_LOCK },
@@ -53,7 +53,7 @@ static const uint8_t state_table_water_out[][NUM_COLS]=
 /* Event                            Action 1               Action 2               Next state */
 /* CHILD_LOCK_PRESS_EVT */          {SIGNORE,         	   SIGNORE,          STATE_WATER_OUT },
 /* TEMPER_CHG_EVT */                {SIGNORE,	           SIGNORE,       	 STATE_WATER_OUT },
-/* WATER_OUT_PRESS_EVT */ 		  	  {STOP_WATER_OUT,       SIGNORE,        	STATE_CHILD_LOCK },
+/* WATER_OUT_PRESS_EVT */ 		  	  {EXIT_WATER_OUT,       SIGNORE,        	STATE_CHILD_LOCK },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_WATER_OUT },
 /* DISINFECTION_PRESS_EVT */        {SIGNORE,              SIGNORE,          STATE_WATER_OUT },
 /* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        	STATE_CHILD_LOCK }
@@ -65,7 +65,7 @@ static const uint8_t state_table_pre_heatting[][NUM_COLS]=
 /* CHILD_LOCK_PRESS_EVT */          {SIGNORE,         	   SIGNORE,          STATE_PRE_HEAT },
 /* TEMPER_CHG_EVT */                {SIGNORE,       	  	 SIGNORE,       	 STATE_PRE_HEAT },
 /* WATER_OUT_PRESS_EVT */ 				 	{SIGNORE,        	 		 SIGNORE,          STATE_PRE_HEAT },
-/* PRE_HEAT_PRESS_EVT */            {STOP_PRE_HEAT,        SIGNORE,        STATE_CHILD_LOCK },
+/* PRE_HEAT_PRESS_EVT */            {EXIT_PRE_HEAT,        SIGNORE,        STATE_CHILD_LOCK },
 /* DISINFECTION_PRESS_EVT */        {SIGNORE,              SIGNORE,          STATE_PRE_HEAT },
 /* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        STATE_CHILD_LOCK }
 };
@@ -77,7 +77,7 @@ static const uint8_t state_table_disinfection[][NUM_COLS]=
 /* TEMPER_CHG_EVT */                {SIGNORE, 	    	 		 SIGNORE,       	 STATE_DISINFECT },
 /* WATER_OUT_PRESS_EVT */ 					{CLEAR_WATER,      	   SIGNORE,          STATE_DISINFECT },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_DISINFECT },
-/* DISINFECTION_PRESS_EVT */        {STOP_DISINFECT,       SIGNORE,         STATE_CHILD_LOCK },
+/* DISINFECTION_PRESS_EVT */        {EXIT_DISINFECT,       SIGNORE,         STATE_CHILD_LOCK },
 /* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        	STATE_CHILD_LOCK }
 };
 
@@ -91,7 +91,7 @@ static const ST_TBL st_tbl[] =
 	state_table_disinfection
 };
 
-void do_lock(WaterDispenser *Dispenser)
+void enter_lock(WaterDispenser *Dispenser)
 {
 	mDispenser.heating_enabled = 0;                                 //Disable heating                               //Disable heating
 	mDispenser.disinfect_finish_flag = 0;
@@ -104,7 +104,7 @@ void do_lock(WaterDispenser *Dispenser)
 	Alarm_Start(&mAlarm,0,0,10,LOCK_ALARM);
 }
 
-void lock_release(WaterDispenser *Dispenser)
+void exit_lock(WaterDispenser *Dispenser)
 {
 	set_led_status(LED_ID_CHILD_LOCK,LED_OFF);
 	Alarm_Cancel(&mAlarm);	
@@ -117,7 +117,7 @@ void change_target_temper(WaterDispenser *Dispenser)
 	Dispenser->temp_setting = target_temper_tbl[mDispenser.temper_index];
 }
 
-void water_out(WaterDispenser *Dispenser)
+void enter_water_out(WaterDispenser *Dispenser)
 {
 	if(mDispenser.temp_setting == 25)	{
 		mDispenser.heating_enabled = 0; //Enable heating
@@ -165,7 +165,7 @@ void clear_water(WaterDispenser *Dispenser)
 	}
 }
 
-void stop_water_out(WaterDispenser *Dispenser)
+void exit_water_out(WaterDispenser *Dispenser)
 {
 	mDispenser.heating_enabled = 0;                                 //Disable heating
 	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
@@ -174,7 +174,7 @@ void stop_water_out(WaterDispenser *Dispenser)
 	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
 }
 
-void pre_heat(WaterDispenser *Dispenser)
+void enter_preheat(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_BLINK,LED_OFF);
 	mDispenser.temper_index = 1;	//set target water temper 45℃
@@ -186,7 +186,7 @@ void pre_heat(WaterDispenser *Dispenser)
 	mDispenser.pump_speed = 80;                                    //Set pump speed to xx%
 }
 
-void stop_pre_heat(WaterDispenser *Dispenser)
+void exit_preheat(WaterDispenser *Dispenser)
 {
 	mDispenser.heating_enabled = 0;                                 //Disable heating
 	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
@@ -196,7 +196,7 @@ void stop_pre_heat(WaterDispenser *Dispenser)
 	Alarm_Cancel(&mAlarm);
 }
 
-void do_disinfection(WaterDispenser *Dispenser)
+void enter_disinfection(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_BLINK);
 	Alarm_Start(&mAlarm,0,0,10,DISINFECT_ALARM);
@@ -211,7 +211,7 @@ void do_disinfection(WaterDispenser *Dispenser)
 	mDispenser.pump_speed = 60;                                    //Set pump speed to xx%
 }
 
-void stop_disinfection(WaterDispenser *Dispenser)
+void exit_disinfection(WaterDispenser *Dispenser)
 {
 	if(mDispenser.need_clear_container == 1){ //clear containter befor eixt disinfect state
 		mDispenser.CurrentState = STATE_DISINFECT;
@@ -252,18 +252,18 @@ void exit_idle(WaterDispenser *Dispenser)
 typedef void (*WATER_DISPENSER_ACT)(WaterDispenser *Dispenser);
 const WATER_DISPENSER_ACT WaterDispenser_action[] =
 {
-	do_lock,    		 			/* DO_LOCK  */
-	lock_release,         /* LOCK_RELEASE */
-	change_target_temper,	/* CHG_TARGET_TEMPER*/
-	water_out,  		  		/* DO_WATER_OUT */
-	clear_water,					/* CLEAR_WATER */
-	stop_water_out,       /* STOP_WATER_OUT */
-	pre_heat,         /* DO_PRE_HEATTING */
-	stop_pre_heat,    /* STOP_PRE_HEATTING */
-	do_disinfection,      /* DO_DISINFEC */
-	stop_disinfection,    /* STOP_DISINFEC */
+	enter_lock,    		 			
+	exit_lock,         			
+	change_target_temper,		
+	enter_water_out,  		 	
+	clear_water,						
+	exit_water_out,       	
+	enter_preheat,         
+	exit_preheat,    				
+	enter_disinfection,      
+	exit_disinfection,    
 	dry_burning_handle,
-	enter_idle,    /* STOP_DISINFEC */
+	enter_idle,    				
 	exit_idle,
 	NULL
 };

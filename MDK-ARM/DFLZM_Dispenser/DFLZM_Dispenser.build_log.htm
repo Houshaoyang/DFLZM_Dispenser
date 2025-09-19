@@ -27,28 +27,10 @@ Project File Date:  09/15/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\install\keil526\ARM\ARMCC\Bin'
 Build target 'DFLZM_Dispenser'
-compiling sm.c...
-..\Core\Src\sm.c(147): warning:  #177-D: label "defualt"  was declared but never referenced
-  		defualt:break;
-..\Core\Src\sm.c(271): warning:  #188-D: enumerated type mixed with another type
-  	Dispenser->CurrentState = state_table[event][SNEXT_STATE];
-..\Core\Src\sm.c(280): warning:  #1-D: last line of file ends without a newline
-  }
-..\Core\Src\sm.c: 3 warnings, 0 errors
-compiling main.c...
-../Core/Src/main.c(219): warning:  #188-D: enumerated type mixed with another type
-  			HAL_GPIO_WritePin(HEATER,ON);
-../Core/Src/main.c(281): warning:  #188-D: enumerated type mixed with another type
-  					HAL_GPIO_WritePin(PUMP,ON);
-../Core/Src/main.c(283): warning:  #188-D: enumerated type mixed with another type
-  				else HAL_GPIO_WritePin(PUMP,OFF);  // 
-../Core/Src/main.c(288): warning:  #188-D: enumerated type mixed with another type
-  			HAL_GPIO_WritePin(HEATER,OFF);
-../Core/Src/main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=18704 RO-data=1104 RW-data=216 ZI-data=5040  
+Program Size: Code=18764 RO-data=1104 RW-data=216 ZI-data=5040  
 FromELF: creating hex file...
-"DFLZM_Dispenser\DFLZM_Dispenser.axf" - 0 Error(s), 7 Warning(s).
+"DFLZM_Dispenser\DFLZM_Dispenser.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -71,7 +53,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.1.2
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
