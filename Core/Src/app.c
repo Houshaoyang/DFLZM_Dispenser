@@ -1,8 +1,7 @@
 #include "app.h"
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include "adc.h"
-
 //===========================================================
 //----------Temperature comparison table (ADC values corresponding to 0 to 100℃)
 static const unsigned int temptab[]={  //0 to 100℃ 
@@ -53,14 +52,14 @@ const uint8_t DotDecode[][10] = {
 /*B2*/ {GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT, GPIO_MODE_INPUT,  0,0,1,0,0},
 /*C2*/ {GPIO_MODE_INPUT, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT,  0,0,1,0,0},
 /*D2*/ {GPIO_MODE_INPUT, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP,  0,0,1,0,0},
-/*E2*/ {GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT,  0,0,0,1,0},
 /*F2*/ {GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT,  0,0,0,1,0},
+/*E2*/ {GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT,  0,0,0,1,0},
 /*G2*/ {GPIO_MODE_INPUT, GPIO_MODE_INPUT, GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_PP, GPIO_MODE_INPUT,  0,0,0,1,0}
 };
 
 //Segment code table for 7-segment display of 0-9 and some characters
 const uint8_t Segment_Code[]={
-//HGFEDCBA
+//Xx   		 HGFEDCBA
 0x3F, // 0B00111111 (0)   1:LED on 0:LED off
 0x06, // 0B00000110 (1)
 0x5B, // 0B01011011 (2)
@@ -71,12 +70,7 @@ const uint8_t Segment_Code[]={
 0x07, // 0B00000111 (7)
 0x7F, // 0B01111111 (8)
 0x6F, // 0B01101111 (9)
-0x00, // 0B00000000 (A)
-0x00, // 0B00000000 (B)
-0x00, // 0B00000000 (C)
-0x00, // 0B00000000 (D)
 0x79, // 0B01111001 (E)
-0x00  // 0B00000000 (F)
 };
 #endif
 
@@ -339,7 +333,6 @@ void Alarm_Start(alarm *alarm,uint8_t hh,uint8_t mm,uint8_t ss,uint8_t type_flag
 		alarm->type_flag = type_flag;
 		alarm->state = ON;
 		alarm->alarm_timeout_cb = alarm_cb_tbl[type_flag];
-	printf("start a alarm  hh:mm:ss  %d:%d:%d\n",mAlarm.hh,mAlarm.mm,mAlarm.ss);
 	}
  }
  
@@ -356,8 +349,9 @@ void Alarm_Cancel(alarm *alarm)
 		alarm->ss = 0;
 		alarm->type_flag = 0;
 		alarm->state = OFF;
-		printf("cancel timer \n");
-	}else printf("Alarm_Cancel:alarm don't exist \n");
+//		printf("cancel timer \n");
+	}
+//	else printf("Alarm_Cancel:alarm don't exist \n");
 }
  
 /**
@@ -393,10 +387,10 @@ void Alarm_Process(void)
 
 		if(mAlarm.state == ON)
 		{
-			printf("alarm time remain hh:mm:ss  %d:%d:%d\n",mAlarm.hh,mAlarm.mm,mAlarm.ss);
+//			printf("alarm time remain hh:mm:ss  %d:%d:%d\n",mAlarm.hh,mAlarm.mm,mAlarm.ss);
 		}
 
-		printf("alarm state : %d \n",mAlarm.state);
+//		printf("alarm state : %d \n",mAlarm.state);
         AlarmTimeBase_1s = 0;    
     }
  }
@@ -407,7 +401,7 @@ void Alarm_Process(void)
  */
 void alarm_cb_demo(void)
 {
-	printf("alarm timeout :mAlarm.type_flag: %d \n",mAlarm.type_flag);
+//	printf("alarm timeout :mAlarm.type_flag: %d \n",mAlarm.type_flag);
 }
 
 /**
@@ -648,7 +642,28 @@ void DelayUs(uint32_t us)
  */
 void display(void)
 {
-	uint8_t i,j,tens_num,units_num,time=50;
+	uint8_t i,j,tens_num,units_num;
+	uint32_t time=50;
+	#ifdef SEGMENTCODE_TEST
+		
+	for(i=A1;i<=G2;i++)
+	{
+			GPIO_CONFIG(Dr1_group,Dr1,DotDecode[i][0],DotDecode[i][5]); 
+			GPIO_CONFIG(Dr2_group,Dr2,DotDecode[i][1],DotDecode[i][6]);
+			GPIO_CONFIG(Dr3_group,Dr3,DotDecode[i][2],DotDecode[i][7]);
+			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[i][3],DotDecode[i][8]);
+			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[i][4],DotDecode[i][9]);
+			DelayUs(time);
+			HAL_Delay(1000);
+			GPIO_SET_LOW(Dr1_group,Dr1); //Turn off all LEDs to prevent accidental lighting
+			GPIO_SET_LOW(Dr2_group,Dr2);
+			GPIO_SET_LOW(Dr3_group,Dr3);
+			GPIO_SET_LOW(Dr4_group,Dr4);
+			GPIO_SET_LOW(Dr5_group,Dr5);
+//			HAL_Delay(1000);
+	}	
+	#else
+
 	if(mDispenser.fault_code == NO_FAULT){
 		tens_num = mDispenser.temp_setting/10;
 		units_num =mDispenser.temp_setting%10; 
@@ -668,11 +683,11 @@ void display(void)
 			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[i][3],DotDecode[i][8]);
 			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[i][4],DotDecode[i][9]);
 			DelayUs(time);
-			GPIO_SET_LOW(Dr1_group,Dr1); //Turn off all LEDs to prevent accidental lighting
-			GPIO_SET_LOW(Dr2_group,Dr2);
-			GPIO_SET_LOW(Dr3_group,Dr3);
-			GPIO_SET_LOW(Dr4_group,Dr4);
-			GPIO_SET_LOW(Dr5_group,Dr5);         
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0);        
 		}      
 	}
 	//Display units digit
@@ -687,11 +702,11 @@ void display(void)
 			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[j][3],DotDecode[j][8]);
 			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[j][4],DotDecode[j][9]);
 			DelayUs(time);
-			GPIO_SET_LOW(Dr1_group,Dr1); //Turn off all LEDs to prevent accidental lighting
-			GPIO_SET_LOW(Dr2_group,Dr2);
-			GPIO_SET_LOW(Dr3_group,Dr3);
-			GPIO_SET_LOW(Dr4_group,Dr4);
-			GPIO_SET_LOW(Dr5_group,Dr5); 
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0); 
 			}
 	}
 	//Display temperature indication
@@ -701,11 +716,12 @@ void display(void)
 	GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
 	GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
 	DelayUs(time);
-	GPIO_SET_LOW(Dr1_group,Dr1); //Turn off all LEDs to prevent accidental lighting
-	GPIO_SET_LOW(Dr2_group,Dr2);
-	GPIO_SET_LOW(Dr3_group,Dr3);
-	GPIO_SET_LOW(Dr4_group,Dr4);
-	GPIO_SET_LOW(Dr5_group,Dr5);
+	GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
+	GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
+	GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
+	GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
+	GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0); 
+	#endif
 }
 #endif
 
@@ -798,7 +814,7 @@ void safety_check(void)
 {
 	if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ)  //check if container empty
 	{ 
-			HAL_Delay(2000);
+			DelayUs(2000);
 		  if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ)  //check if container empty
 			{
 					if(mDispenser.heating_pwr > 0){

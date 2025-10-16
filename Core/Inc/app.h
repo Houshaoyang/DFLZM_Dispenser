@@ -5,7 +5,7 @@
 #include "sm.h"
 #include "gpio.h"
 #include "GpioCtrlMacros.h"
-#include "flash.h"
+//#include "flash.h"
 
 /**************define struct*********/
 typedef struct{
@@ -58,8 +58,8 @@ typedef enum {
 }led_id;
 
 typedef enum {
-    LED_ON = 0,      // 亮
-    LED_OFF,        // 灭
+    LED_OFF = 0,      // 亮
+    LED_ON,        // 灭
     LED_BLINK,      // 闪烁
 }led_status;
 

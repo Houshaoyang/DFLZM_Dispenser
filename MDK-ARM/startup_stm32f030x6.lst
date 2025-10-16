@@ -341,11 +341,11 @@ ARM Macro Assembler    Page 6
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0 --apcs=interw
 ork --depend=dflzm_dispenser\startup_stm32f030x6.d -odflzm_dispenser\startup_st
-m32f030x6.o -I..\Core\Inc -I.\RTE\_DFLZM_Dispenser -ID:\install\keil526\ARM\PAC
-K\ARM\CMSIS\5.4.0\CMSIS\Core\Include -ID:\install\keil526\ARM\PACK\Keil\STM32F0
-xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include --predefine="__UVISION_V
-ERSION SETA 526" --predefine="_RTE_ SETA 1" --predefine="STM32F030x8 SETA 1" --
-list=startup_stm32f030x6.lst startup_stm32f030x6.s
+m32f030x6.o -I.\RTE\_DFLZM_Dispenser -ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.
+4.0\CMSIS\Core\Include -ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\D
+rivers\CMSIS\Device\ST\STM32F0xx\Include --predefine="__UVISION_VERSION SETA 52
+6" --predefine="_RTE_ SETA 1" --predefine="STM32F030x6 SETA 1" --list=startup_s
+tm32f030x6.lst startup_stm32f030x6.s
 
 
 

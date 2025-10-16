@@ -1,7 +1,7 @@
 #include "sm.h"
 #include "app.h"
 #include "gpio.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 
 #define SACTIONS 2
@@ -276,7 +276,6 @@ void WaterDispenser_Eventhandler(WaterDispenser *Dispenser,int event)
 	
 	state_table = st_tbl[Dispenser->CurrentState];	
 	Dispenser->CurrentState = state_table[event][SNEXT_STATE];
-	printf("CurrentState : %d \n",Dispenser->CurrentState);
 	for(i=0;i<SACTIONS;i++)
 	{
 		if((action = state_table[event][i]) != SIGNORE)

@@ -6,6 +6,7 @@
 #define ENABLE_DEBUG_PTC 1
 #define ENABLE_DEBUG_DISPLAY 1
 #define ENABLE_DEBUG_PID 1
+//#define SEGMENTCODE_TEST 1
 
 /**************define macro*********/
 #define ON  1

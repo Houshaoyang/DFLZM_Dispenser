@@ -1,12 +1,12 @@
 dflzm_dispenser\system_stm32f0xx.o: ../Core/Src/system_stm32f0xx.c
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
-dflzm_dispenser\system_stm32f0xx.o: D:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030x8.h
+dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Include/core_cm0.h
 dflzm_dispenser\system_stm32f0xx.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stdint.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Include/cmsis_version.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-dflzm_dispenser\system_stm32f0xx.o: D:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h
+dflzm_dispenser\system_stm32f0xx.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
 dflzm_dispenser\system_stm32f0xx.o: ../Core/Inc/stm32f0xx_hal_conf.h
 dflzm_dispenser\system_stm32f0xx.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h
