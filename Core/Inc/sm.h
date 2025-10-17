@@ -46,17 +46,6 @@ typedef struct
 }WaterDispenser;
 
 void WaterDispenser_Init(WaterDispenser *Dispenser);
-
 void WaterDispenser_Eventhandler(WaterDispenser *Dispenser,int event);
-
-void do_lock(WaterDispenser *Dispenser);
-void lock_release(WaterDispenser *Dispenser);
-void pre_heat(WaterDispenser *Dispenser);
-void stop_pre_heat(WaterDispenser *Dispenser);
-void water_out(WaterDispenser *Dispenser);
-void stop_water_out(WaterDispenser *Dispenser);
-void do_disinfection(WaterDispenser *Dispenser);
-void stop_disinfection(WaterDispenser *Dispenser);
-void change_target_temper(WaterDispenser *Dispenser);
 
 #endif

@@ -655,11 +655,11 @@ void display(void)
 			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[i][4],DotDecode[i][9]);
 			DelayUs(time);
 			HAL_Delay(1000);
-			GPIO_SET_LOW(Dr1_group,Dr1); //Turn off all LEDs to prevent accidental lighting
-			GPIO_SET_LOW(Dr2_group,Dr2);
-			GPIO_SET_LOW(Dr3_group,Dr3);
-			GPIO_SET_LOW(Dr4_group,Dr4);
-			GPIO_SET_LOW(Dr5_group,Dr5);
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
 //			HAL_Delay(1000);
 	}	
 	#else
@@ -683,11 +683,11 @@ void display(void)
 			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[i][3],DotDecode[i][8]);
 			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[i][4],DotDecode[i][9]);
 			DelayUs(time);
-			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
-			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0);        
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);        
 		}      
 	}
 	//Display units digit
@@ -702,11 +702,11 @@ void display(void)
 			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[j][3],DotDecode[j][8]);
 			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[j][4],DotDecode[j][9]);
 			DelayUs(time);
-			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
-			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
-			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0); 
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
 			}
 	}
 	//Display temperature indication
@@ -716,11 +716,11 @@ void display(void)
 	GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
 	GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
 	DelayUs(time);
-	GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,0); //Turn off all LEDs to prevent accidental lighting
-	GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,0);
-	GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,0);
-	GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,0);
-	GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,0); 
+			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
 	#endif
 }
 #endif
