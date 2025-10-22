@@ -80,6 +80,7 @@ key key_child_lock = {
 	KEY_UP,
 	EVT_NUM,
 	CHILD_LOCK_PRESS_EVT,
+    0,
     0
 	} ,	\
 	key_temper_chg = {
@@ -87,6 +88,7 @@ key key_child_lock = {
 	KEY_UP,
 	TEMPER_CHG_EVT,
 	TEMPER_CHG_EVT,
+    0,
     0
 	} , \
 	key_water_out= {
@@ -94,6 +96,7 @@ key key_child_lock = {
 	KEY_UP,
 	EVT_NUM,
 	WATER_OUT_PRESS_EVT,
+    0,
     0
 	}  , \
 	key_pre_heat = {
@@ -101,13 +104,15 @@ key key_child_lock = {
 	KEY_UP,
 	PRE_HEAT_PRESS_EVT,
 	PRE_HEAT_PRESS_EVT,
+    0,
     0
 	} , \
 	key_disinfect= {
 	 KEY_DISINFECT,
 	 KEY_UP,
-     DISINFECTION_PRESS_EVT,
+   DISINFECTION_PRESS_EVT,
 	 DISINFECTION_PRESS_EVT,
+    0,
     0
 	} ;
 
@@ -126,13 +131,13 @@ WaterDispenser mDispenser;
 	
 #ifdef ENABLE_DEBUG_PTC
 //PTC (heating element) related structure
-ptc ptc_in,ptc_out;
+ptc	ptc_in,ptc_out;
 #define NUM_ADC_CHANNEL 2
-uint32_t adc_value[2];  //ADC sampling value array
+//uint32_t adc_value[2];  //ADC sampling value array
 #endif
 	
 //Flow pulse counter
-pulse_counter iFlow;
+pulse_counter iFlow,PassZero_Detect;
 
 //Flow value
 volatile uint16_t Flow_Value = 0;
@@ -167,18 +172,26 @@ uint8_t target_temper_tbl[] = {25,45,55,85,95};
  */
 void System_Init(void)
 {
+	key_child_lock.status = get_key_io_level(key_child_lock.id);
+	key_temper_chg.status = get_key_io_level(key_temper_chg.id);
+	key_water_out.status = get_key_io_level(key_water_out.id);
+	key_pre_heat.status = get_key_io_level(key_pre_heat.id);
+	key_disinfect.status = get_key_io_level(key_disinfect.id);
+	
 	mDispenser.temper_index =0;                          //Initialize temperature index to 0
 	mDispenser.CurrentState = STATE_CHILD_LOCK;          //Initial state is child lock state
 	mDispenser.temp_setting = target_temper_tbl[mDispenser.temper_index];  //Set initial target temperature
 	mDispenser.disinfect_finish_flag = ON;               //Disinfection completion flag initialized to ON
 	mDispenser.fault_code = NO_FAULT;
-
+	
 	mDispenser.heating_enabled = 0;                                 //Disable heating
-	mDispenser.heating_pwr = 20;                                    //Set heating power to xx%
-	mDispenser.pump_speed = 50;                                     //Set pump speed to xx%
+	mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
+	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
 	mDispenser.need_clear_container = 0;
 	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);        //set three way valve state,GPIO_PIN_RESET: water out, GPIO_PIN_SET: water loop back
-
+	HAL_GPIO_WritePin(PUMP, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(HEATER, GPIO_PIN_SET);
+	
 	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);  //Set all LEDs initial states
 }
 
@@ -193,8 +206,8 @@ void waterout_process(void)
 	if(mDispenser.heating_enabled == 1)
 	{
 		calculate_pid();
-		if((ptc_out.temper <= mDispenser.temp_setting+3)\
-			&&(ptc_out.temper >= mDispenser.temp_setting-3))//Zero cold water
+		if((ptc_out->temper <= mDispenser.temp_setting+3)\
+			&&(ptc_out->temper >= mDispenser.temp_setting-3))//Zero cold water
 		{
 			HAL_GPIO_WritePin(TW_Valve, TW_Valve_OUT);	// water out
 		}
@@ -410,9 +423,9 @@ void alarm_cb_demo(void)
  * @return Key level state (1 for high level, 0 for low level)
  * @note Reads the corresponding GPIO level according to the key index
  */
-int get_key_io_level(uint8_t key_index)
+GPIO_PinState get_key_io_level(uint8_t key_index)
 {
-	int ret = 1;
+	GPIO_PinState ret = 1;
 	switch (key_index)
 	{
 		case KEY_CHILD_LOCK:      
@@ -447,8 +460,12 @@ int get_key_io_level(uint8_t key_index)
  * @param _key Pointer to key structure
  * @note Detects key state (pressed, short press, long press) and updates key information
  */
+uint8_t test_id;
 void single_key_Scan(key* _key)  
  {
+	 GPIO_PinState PinState;
+	 test_id = _key->id;
+#if TTP224C_OUTPUT_MODE == TTP224C_DIRECT_MODE
 	if(get_key_io_level(_key->id) == 0 ) //Detects key press
 	{
 		_key->status = KEY_DOWN;
@@ -464,7 +481,14 @@ void single_key_Scan(key* _key)
 			_key->status = KEY_SHORT_PRESS;
     }
     _key->press_time=0;  //Reset press time count
-  }       
+  }  
+#elif	TTP224C_OUTPUT_MODE == TTP224C_TOGGLE_MODE
+	if((PinState=get_key_io_level(_key->id)) != _key->status ) //Detects key press
+	{
+		_key->status = PinState;
+		_key->pressed_flag =1;
+  }
+#endif
  }
 
 /**
@@ -487,6 +511,7 @@ void Keys_Scan(void)
  */
 void Key_status_handler(key* _key)
 {
+	#if TTP224C_OUTPUT_MODE == TTP224C_DIRECT_MODE
 	switch(_key->status){
     case KEY_SHORT_PRESS:
 		if(_key->short_press_event != EVT_NUM)
@@ -504,6 +529,13 @@ void Key_status_handler(key* _key)
     default :break;
     }
     _key->status = KEY_UP;  //Reset key state to not pressed
+	#elif	TTP224C_OUTPUT_MODE == TTP224C_TOGGLE_MODE
+	if(_key->pressed_flag ==1)
+	{
+		_key->pressed_flag =0;
+		WaterDispenser_Eventhandler(&mDispenser,_key->long_press_event);
+	}
+	#endif
 }
 
 /**
@@ -516,7 +548,7 @@ void Keys_handler(void)
 	Key_status_handler(&key_temper_chg);
 	Key_status_handler(&key_water_out);
 	Key_status_handler(&key_pre_heat);
-	single_key_Scan(&key_disinfect);
+	Key_status_handler(&key_disinfect);
 }
 
 /************    LED control related functions    ****************/
@@ -716,11 +748,11 @@ void display(void)
 	GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
 	GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
 	DelayUs(time);
-			GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
-			GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-			GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-			GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-			GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
+	GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+	GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+	GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+	GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+	GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
 	#endif
 }
 #endif
@@ -731,12 +763,12 @@ void display(void)
  * @param _ptc PTC structure
  * @note Converts ADC sampling to temperature value using sliding window filtering
  */
-void get_ptc_temper(ptc _ptc)
+
+void get_ptc_temper(ptc* _ptc)
 { 
 	float sum = 0;
-	uint16_t adc_value;
-	int i,temper;
- 
+	int i;
+ uint16_t adc_value,temper;
 	/*******Get ADC temperature value*******/   
 	HAL_ADC_Start(&hadc);//Start ADC1
 	HAL_ADC_PollForConversion(&hadc,10);//Wait for conversion completion
@@ -749,10 +781,11 @@ void get_ptc_temper(ptc _ptc)
 		}
 	}     
 	/*******Sliding window filtering to calculate average temperature*******/
-	_ptc.buffer[_ptc.buffer_id]=temper;
-	_ptc.buffer_id = (++_ptc.buffer_id) % WINDOW_SIZE;
-	for(i=0;i<WINDOW_SIZE;i++) sum += _ptc.buffer[i];
-	_ptc.temper = sum/WINDOW_SIZE;
+	_ptc->buffer[_ptc->buffer_id]=temper;
+	_ptc->buffer_id = (++_ptc->buffer_id) % WINDOW_SIZE;
+	for(i=0;i<WINDOW_SIZE;i++) sum += _ptc->buffer[i];
+	_ptc->temper = sum/WINDOW_SIZE;
+//	_ptc->temper = temper;
 }
 
 /**
@@ -761,8 +794,8 @@ void get_ptc_temper(ptc _ptc)
  */
 void ADC_Get_Value(void)
 {
-	get_ptc_temper(ptc_in);
-	get_ptc_temper(ptc_out);
+	get_ptc_temper(&ptc_in);
+	get_ptc_temper(&ptc_out);
 	HAL_ADC_Stop(&hadc);
 }
 
@@ -776,7 +809,7 @@ void ADC_Get_Value(void)
 void calculate_pid(void)
 {
     // Calculate current error
-    pid_error = mDispenser.temp_setting - ptc_out.temper;
+    pid_error = mDispenser.temp_setting - ptc_out->temper;
     
     // Calculate integral term
 //    pid_integral += pid_error;

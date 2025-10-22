@@ -45,7 +45,8 @@ typedef struct{
 	key_status status;
 	uint8_t short_press_event;
 	uint8_t long_press_event;
-    uint32_t press_time;
+  uint32_t press_time;
+	uint8_t pressed_flag
 }key;
 
 typedef enum {
@@ -53,7 +54,7 @@ typedef enum {
     LED_ID_TEMPER_CHG,        // 调温
     LED_ID_WATER_OUT,         // 出水
     LED_ID_PRE_HEAT,          // 预加热
-	LED_ID_DISINFECT,    		//消毒
+		LED_ID_DISINFECT,    		//消毒
     LED_ID_NUM
 }led_id;
 
@@ -78,20 +79,20 @@ typedef enum {
 
 #define WINDOW_SIZE 10
 typedef struct {
-	unsigned char channel;
+		unsigned char channel;
     unsigned char buffer_id;
-    float buffer[10];
-    float temper;
+    uint16_t buffer[10];
+    uint16_t temper;
 }ptc;
 
 /**************define global variable*********/
 extern alarm mAlarm;
 extern WaterDispenser mDispenser;
-extern pulse_counter iFlow;
+extern pulse_counter iFlow,PassZero_Detect;
 
 #ifdef ENABLE_DEBUG_PTC
-extern ptc ptc_in,ptc_out;
-extern uint32_t adc_value[2];
+extern ptc	ptc_in,ptc_out;
+//extern uint32_t adc_value[2];
 #endif
 
 extern volatile uint16_t Flow_Value;
@@ -112,7 +113,7 @@ extern uint8_t target_temper_tbl[];
 //volatile WaterDispenser mWaterDispenser = {STATE_CHILD_LOCK,50,CHILD_LOCK_DOWN_EVT};
 
 void System_Init(void);
-int get_key_io_level(uint8_t key_index);
+GPIO_PinState get_key_io_level(uint8_t key_index);
 void Board_Init(void);	    	//
 void Adc_Init(void);		    //	
 void Timer0_Init(void);	
@@ -131,6 +132,7 @@ void Keys_handler(void);
 void set_led_status(uint8_t led_index,uint8_t status);
 void set_all_leds_status(uint8_t led1_sta,uint8_t led2_sta,uint8_t led3_sta,uint8_t led4_sta,uint8_t led5_sta);
 void led_blink(void);
+void DelayUs(uint32_t us);
 
 #ifdef ENABLE_DEBUG_DISPLAY
 void display(void);
@@ -138,7 +140,7 @@ void display(void);
 
 #ifdef ENABLE_DEBUG_PTC
 void ADC_Get_Value(void);
-void get_ptc_temper(ptc _ptc);
+void get_ptc_temper(ptc* _ptc);
 uint16_t Get_Adc_Ddata(unsigned char adcChannel);
 #endif
 

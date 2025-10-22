@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>Hc??</Name>
+          <Name>H</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -152,25 +152,70 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>662</LineNumber>
+          <LineNumber>102</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134224608</Address>
+          <Address>134227138</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Core\Src\app.c</Filename>
+          <Filename>..\Core\Src\sm.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\DFLZM_Dispenser\../Core/Src/app.c\662</Expression>
+          <Expression>\\DFLZM_Dispenser\../Core/Src/sm.c\102</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>i</ItemText>
+          <ItemText>temper,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>adc_value,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PTC_temp_in,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PTC_temp_out,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ptc_in,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ptc_out,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PassZero_Detect</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>iFlow</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>mDispenser,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>test_id</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -216,6 +261,10 @@
       <pSingCmdsp></pSingCmdsp>
       <pMultCmdsp></pMultCmdsp>
       <SystemViewers>
+        <Entry>
+          <Name>System Viewer\ADC</Name>
+          <WinId>35899</WinId>
+        </Entry>
         <Entry>
           <Name>System Viewer\Flash</Name>
           <WinId>35904</WinId>

@@ -5,7 +5,7 @@
 /*****************debug ctrl define*********************/
 #define ENABLE_DEBUG_PTC 1
 #define ENABLE_DEBUG_DISPLAY 1
-#define ENABLE_DEBUG_PID 1
+//#define ENABLE_DEBUG_PID 1
 //#define SEGMENTCODE_TEST 1
 
 /**************define macro*********/
@@ -26,6 +26,10 @@
 #define WATEROUT_LED   GPIOC,GPIO_PIN_15
 #define PREHEAT_LED    GPIOC,GPIO_PIN_14
 #define DISINFECT_LED  GPIOC,GPIO_PIN_13
+
+#define TTP224C_DIRECT_MODE	0
+#define TTP224C_TOGGLE_MODE 1
+#define TTP224C_OUTPUT_MODE TTP224C_TOGGLE_MODE
 
 #define LOCK_KEY       GPIOB,GPIO_PIN_10
 #define TEMP_CHG_KEY   GPIOB,GPIO_PIN_6

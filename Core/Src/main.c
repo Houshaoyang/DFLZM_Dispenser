@@ -142,9 +142,9 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim16);
-//	HAL_TIM_Base_Start_IT(&htim17);
-	System_Init();
 	HAL_ADCEx_Calibration_Start(&hadc);
+	System_Init();
+
 //	save_flash_data();
 //	read_flash_data();
   /* USER CODE END 2 */
@@ -154,13 +154,17 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-//		ADC_Get_Value();
-		Keys_handler();
+
+    /* USER CODE BEGIN 3 */
 		display();
 //		loop_fun();
-//		Alarm_Process();
-//		led_blink();
-    /* USER CODE BEGIN 3 */
+		Keys_handler();
+		led_blink();
+		Alarm_Process();
+		ADC_Get_Value();
+		
+//		HAL_GPIO_TogglePin(BUZZER);
+//		DelayUs(100);
   }
   /* USER CODE END 3 */
 }
@@ -209,8 +213,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(GPIO_Pin);
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
-		heating_cnt = (heating_cnt + 1) % 20;		//pump power control pwm frequence 1000/5 HZ 
-		if(heating_cnt < (mDispenser.heating_pwr/5))
+		++PassZero_Detect.pulse_cnt;
+		heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
+		if(heating_cnt < (mDispenser.heating_pwr/10))
 		{
 			HAL_GPIO_WritePin(HEATER,ON);
 			HAL_TIM_Base_Start_IT(&htim17);			
@@ -260,6 +265,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				{
 					time_cnt_10ms = 0;
 					Keys_Scan();
+					HAL_GPIO_TogglePin(TW_Valve);
         }
  
         if(time_cnt_500ms < LED_BLINK_FREQ_MS){  //500ms for led blink
@@ -269,14 +275,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             time_cnt_500ms = 0;
 						iFlow.HZ = 2*iFlow.pulse_cnt;//???????
             iFlow.pulse_cnt =0;  //????????????		
+						PassZero_Detect.HZ = PassZero_Detect.pulse_cnt;
+						PassZero_Detect.pulse_cnt = 0;
         }
-				
+
         pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
         if(pump_cnt < (mDispenser.pump_speed/10))
 				{
-					HAL_GPIO_WritePin(PUMP,ON);
+					HAL_GPIO_WritePin(PUMP,GPIO_PIN_RESET); //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 				}  
-				else HAL_GPIO_WritePin(PUMP,OFF);  // 
+				else HAL_GPIO_WritePin(PUMP,GPIO_PIN_SET);  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 		}
 		
 		if (htim->Instance == TIM17) {
