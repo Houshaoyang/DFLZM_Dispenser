@@ -45,6 +45,7 @@ typedef struct
 	uint8_t need_clear_container;             // 
 }WaterDispenser;
 
+void enter_lock(WaterDispenser *Dispenser);
 void WaterDispenser_Init(WaterDispenser *Dispenser);
 void WaterDispenser_Eventhandler(WaterDispenser *Dispenser,int event);
 

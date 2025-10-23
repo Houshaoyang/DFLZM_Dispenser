@@ -12,6 +12,12 @@
 #define ON  1
 #define OFF 0
 
+#define TURE  1
+#define FALSE 0
+
+#define TIMERSTART  1
+#define TIMERSTOP 0
+
 /*****************timer para define*********************/
 #define LONG_PRESS_TIME 1000 //ms
 #define SHORT_PRESS_TIME  200   //ms  
@@ -37,13 +43,24 @@
 #define PREHEAT_KEY    GPIOB,GPIO_PIN_4
 #define DISINFECT_KEY  GPIOB,GPIO_PIN_3
 
-#define PUMP           GPIOB,GPIO_PIN_1
+#define PUMP					 GPIOB,GPIO_PIN_1
+#define PUMP_ON        HAL_GPIO_WritePin(PUMP,GPIO_PIN_RESET)
+#define PUMP_OFF       HAL_GPIO_WritePin(PUMP,GPIO_PIN_SET)
+
 #define BUZZER         GPIOA,GPIO_PIN_15
-#define HEATER         GPIOA,GPIO_PIN_4
+
+#define HEATER				 GPIOA,GPIO_PIN_4
+#define HEATER_ON      HAL_GPIO_WritePin(HEATER,GPIO_PIN_SET)
+#define HEATER_OFF     HAL_GPIO_WritePin(HEATER,GPIO_PIN_RESET) 
+
 #define Micro_SW			 GPIOA,GPIO_PIN_2
-#define TW_Valve			 GPIOB,GPIO_PIN_11
-#define TW_Valve_OUT	 GPIO_PIN_RESET
-#define TW_Valve_IN		 GPIO_PIN_SET
+
+#define TW_Valve 			 GPIOB,GPIO_PIN_11
+#define OUT						 GPIO_PIN_RESET
+#define IN						 GPIO_PIN_SET
+#define TW_Valve_OUT	 HAL_GPIO_WritePin(TW_Valve, OUT)
+#define TW_Valve_IN		 HAL_GPIO_WritePin(TW_Valve, IN)
+
 #define LED1					 GPIOB,GPIO_PIN_2
 
 #define Dr1         	 GPIO_PIN_6

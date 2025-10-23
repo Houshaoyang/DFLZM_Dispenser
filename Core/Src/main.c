@@ -142,6 +142,7 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim16);
+//			HAL_TIM_Base_Start_IT(&htim17);	
 	HAL_ADCEx_Calibration_Start(&hadc);
 	System_Init();
 
@@ -162,9 +163,9 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
-		
+		safety_check();
 //		HAL_GPIO_TogglePin(BUZZER);
-//		DelayUs(100);
+//		DelayUs(20000);
   }
   /* USER CODE END 3 */
 }
@@ -213,13 +214,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(GPIO_Pin);
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
-		++PassZero_Detect.pulse_cnt;
-		heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
-		if(heating_cnt < (mDispenser.heating_pwr/10))
-		{
-			HAL_GPIO_WritePin(HEATER,ON);
-			HAL_TIM_Base_Start_IT(&htim17);			
-		}		
+		if(mDispenser.heating_enabled == TURE){
+			++PassZero_Detect.pulse_cnt;
+			heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
+			if(heating_cnt < (mDispenser.heating_pwr/10)){
+			HEATER_ON;
+//			HAL_TIM_Base_Start_IT(&htim17);		
+			IntZero_timer_ms.start_flag = TIMERSTART ;	//	start conduction angle timer 
+		}	
+		}
+
 	}
 	
 	if(GPIO_Pin == GPIO_PIN_3)		//flow_detect_pin count pulse
@@ -252,10 +256,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  if (htim->Instance == TIM16) {
 				if(time_cnt_1s < 1000)  //1s timer for alarm
         {
-            time_cnt_1s++;
+					time_cnt_1s++;
 				}else{
-            AlarmTimeBase_1s = 1;
-            time_cnt_1s = 0;  
+					AlarmTimeBase_1s = 1;
+					time_cnt_1s = 0;
+					if(DryBurn_Timer_s.start_flag == TIMERSTART){
+						if(DryBurn_Timer_s.cnt < DryBurn_Timer_s.time_setting){
+							DryBurn_Timer_s.cnt++;
+						}else{
+								DryBurn_Timer_s.timersup = TURE;
+								DryBurn_Timer_s.cnt =0;
+								DryBurn_Timer_s.start_flag = TIMERSTOP;
+						}
+					}
 				}
 				
         if(time_cnt_10ms < 10) //scan key state in every 10ms
@@ -265,7 +278,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				{
 					time_cnt_10ms = 0;
 					Keys_Scan();
-					HAL_GPIO_TogglePin(TW_Valve);
+//					HAL_GPIO_TogglePin(TW_Valve);
         }
  
         if(time_cnt_500ms < LED_BLINK_FREQ_MS){  //500ms for led blink
@@ -282,14 +295,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
         if(pump_cnt < (mDispenser.pump_speed/10))
 				{
-					HAL_GPIO_WritePin(PUMP,GPIO_PIN_RESET); //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+					PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 				}  
-				else HAL_GPIO_WritePin(PUMP,GPIO_PIN_SET);  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+				else PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+				
+				if(IntZero_timer_ms.start_flag == TIMERSTART){	//	conduction angle count
+					if(IntZero_timer_ms.cnt < IntZero_timer_ms.time_setting){
+						IntZero_timer_ms.cnt++;
+					}else{
+						HEATER_OFF;
+						IntZero_timer_ms.cnt =0;
+						IntZero_timer_ms.start_flag = TIMERSTOP;
+					}
+				}
 		}
 		
 		if (htim->Instance == TIM17) {
 			HAL_TIM_Base_Stop_IT(&htim17);
-			HAL_GPIO_WritePin(HEATER,OFF);
 		}
 		
   /* USER CODE END Callback 1 */

@@ -20,6 +20,13 @@ void (*alarm_timeout_cb)(void);
 
 typedef void (*alarm_cb)(void);
 
+typedef struct{
+uint8_t start_flag;
+uint8_t timersup;
+uint16_t cnt;
+uint16_t time_setting;	//ms
+}alarm_xx;
+
 typedef struct {
     uint8_t HZ;
     uint16_t pulse_cnt;
@@ -46,7 +53,7 @@ typedef struct{
 	uint8_t short_press_event;
 	uint8_t long_press_event;
   uint32_t press_time;
-	uint8_t pressed_flag
+	uint8_t pressed_flag;
 }key;
 
 typedef enum {
@@ -106,6 +113,8 @@ extern uint8_t LedTimeBase_500ms;  //20ms key base time  flag
 extern uint16_t time_cnt_1s;
 extern uint16_t time_cnt_500ms;
 extern uint16_t time_cnt_10ms;
+extern alarm_xx IntZero_timer_ms,DryBurn_Timer_s;
+
 
 extern uint8_t target_temper_tbl[];
 
@@ -146,6 +155,6 @@ uint16_t Get_Adc_Ddata(unsigned char adcChannel);
 
 #ifdef ENABLE_DEBUG_PID
 void calculate_pid(void); 
-void safety_check(void);
 #endif
+void safety_check(void);
 #endif

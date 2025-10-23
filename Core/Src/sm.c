@@ -14,8 +14,8 @@ enum
 	EXIT_LOCK,
 	CHG_TARGET_TEMPER,
 	ENTER_WATER_OUT,
-	CLEAR_WATER,
 	EXIT_WATER_OUT,
+	CLEAR_WATER,
 	ENTER_PRE_HEAT,
 	EXIT_PRE_HEAT,
 	ENTER_DISINFECT, 
@@ -40,7 +40,7 @@ static const uint8_t state_table_idle[][NUM_COLS]=
 static const uint8_t state_table_child_lock[][NUM_COLS]=
 {
 /* Event                            Action 1               Action 2               Next state */
-/* CHILD_LOCK_PRESS_EVT */          {ENTER_IDLE, 					 EXIT_LOCK,            STATE_IDLE },
+/* CHILD_LOCK_PRESS_EVT */          {EXIT_LOCK, 					 ENTER_IDLE,            STATE_IDLE },
 /* TEMPER_CHG_EVT */                {CHG_TARGET_TEMPER,	   SIGNORE,       	 STATE_CHILD_LOCK },
 /* WATER_OUT_PRESS_EVT */ 		  		{SIGNORE,     		   	 SIGNORE,        	 STATE_CHILD_LOCK },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_CHILD_LOCK },
@@ -93,20 +93,23 @@ static const ST_TBL st_tbl[] =
 
 void enter_lock(WaterDispenser *Dispenser)
 {
-		set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
-//	mDispenser.heating_enabled = 0;                                 //Disable heating                               //Disable heating
-//	mDispenser.disinfect_finish_flag = 0;
-//	mDispenser.disinfect_clr_water_flag = 0;
-//	mDispenser.need_clear_container = 0;
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
+	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
+
 	mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
 	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
+	mDispenser.heating_enabled = FALSE;                                 //Disable heating                               //Disable heating
+	mDispenser.disinfect_finish_flag = FALSE;
+	mDispenser.disinfect_clr_water_flag = FALSE;
+	mDispenser.need_clear_container = FALSE;
+	
+	TW_Valve_IN;        //set three way valve state,GPIO_PIN_RESET: water out, GPIO_PIN_SET: water loop back
+	PUMP_OFF;
+	HEATER_OFF;
 //	Alarm_Start(&mAlarm,0,0,10,LOCK_ALARM);
 }
 
 void exit_lock(WaterDispenser *Dispenser)
 {
-		set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
 //	Alarm_Cancel(&mAlarm);	
 }
 
@@ -119,60 +122,54 @@ void change_target_temper(WaterDispenser *Dispenser)
 
 void enter_water_out(WaterDispenser *Dispenser)
 {
-		set_all_leds_status(LED_OFF,LED_OFF,LED_BLINK,LED_OFF,LED_OFF);
-//	if(mDispenser.temp_setting == 25)	{
-//		mDispenser.heating_enabled = 0; //Enable heating
-//		HAL_GPIO_WritePin(TW_Valve, TW_Valve_OUT);	
-//	}else{
-//		mDispenser.heating_enabled = 1;
-//		HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
-//	}
+	set_all_leds_status(LED_OFF,LED_OFF,LED_BLINK,LED_OFF,LED_OFF);
+	if(mDispenser.temp_setting == 25)	{
+		mDispenser.heating_enabled = FALSE; //Disable heating
+		TW_Valve_OUT;	
+	}else{
+		mDispenser.heating_enabled = TURE;
+		TW_Valve_IN;
+	}
 
-//	switch(mDispenser.temp_setting)
-//	{
-//		case 25:
-//			mDispenser.pump_speed = 100;	
-//			mDispenser.heating_pwr = 0;			//Set heating power to xx%
-//			break;
-//		case 45:mDispenser.pump_speed = 80;
-//			mDispenser.heating_pwr = 0;		
-//			break;
-//		case 55:mDispenser.pump_speed = 80;
-//			mDispenser.heating_pwr = 0;		
-//			break;
-//		case 85:mDispenser.pump_speed = 60;	
-//			mDispenser.heating_pwr = 0;
-//			break;
-//		case 95:mDispenser.pump_speed = 40;	
-//			mDispenser.heating_pwr = 0;
-//			break;
-//		defualt:break;
-//	}
-
+	switch(mDispenser.temp_setting)
+	{
+		case 25:
+			mDispenser.pump_speed = 100;	
+			mDispenser.heating_pwr = 0;			//Set heating power to xx%
+			break;
+		case 45:mDispenser.pump_speed = 80;
+			mDispenser.heating_pwr = 70;		
+			break;
+		case 55:mDispenser.pump_speed = 80;
+			mDispenser.heating_pwr = 80;		
+			break;
+		case 85:mDispenser.pump_speed = 60;	
+			mDispenser.heating_pwr = 100;
+			break;
+		case 95:mDispenser.pump_speed = 40;	
+			mDispenser.heating_pwr = 100;
+			break;
+		defualt:break;
+	}
 }
 
 void clear_water(WaterDispenser *Dispenser)
 {
-//	if(Dispenser->disinfect_finish_flag == 1)        //消毒结束后进入排空状态
-//	{
-//		if(Dispenser->disinfect_clr_water_flag == 0)  	
-//		{
-//			Dispenser->disinfect_clr_water_flag = 1;	//排空未开启，开始排水
-//			mDispenser.pump_speed = 100;
-//		} else{
-//			Dispenser->disinfect_clr_water_flag = 0;	//排空已开启，停止排水
-//			mDispenser.pump_speed = 0;
-//		}
-//	}
+	if(Dispenser->disinfect_finish_flag == TURE)        //消毒结束后进入排空状态
+	{
+		if(Dispenser->disinfect_clr_water_flag == FALSE)  	
+		{
+			Dispenser->disinfect_clr_water_flag = TURE;	//排空未开启，开始排水
+			mDispenser.pump_speed = 100;
+		} else{
+			Dispenser->disinfect_clr_water_flag = FALSE;	//排空已开启，停止排水
+			mDispenser.pump_speed = 0;
+		}
+	}
 }
 
 void exit_water_out(WaterDispenser *Dispenser)
-{
-//	mDispenser.heating_enabled = 0;                                 //Disable heating
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
-//	mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
-//	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
-	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
+{                                 
 }
 
 void enter_preheat(WaterDispenser *Dispenser)
@@ -181,56 +178,44 @@ void enter_preheat(WaterDispenser *Dispenser)
 	mDispenser.temper_index = 1;	//set target water temper 45℃
 	Dispenser->temp_setting = target_temper_tbl[mDispenser.temper_index];
 	
-//	mDispenser.heating_enabled = 1;                                 //Enable heating
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
+	mDispenser.heating_enabled = 1;                                 //Enable heating
+	TW_Valve_IN;
 	mDispenser.heating_pwr = 80;                                    //Set heating power to xx%
 	mDispenser.pump_speed = 80;                                    //Set pump speed to xx%
 }
 
 void exit_preheat(WaterDispenser *Dispenser)
 {
-		set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
-//	mDispenser.heating_enabled = 0;                                 //Disable heating
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
-//	mDispenser.heating_pwr = 0;                       		          //Set heating power to xx%
-//	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
-//	Alarm_Cancel(&mAlarm);
-
+	Alarm_Cancel(&mAlarm);
 }
 
 void enter_disinfection(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_BLINK);
-//	Alarm_Start(&mAlarm,0,0,10,DISINFECT_ALARM);
+	Alarm_Start(&mAlarm,0,0,10,DISINFECT_ALARM);
 	mDispenser.temper_index = 3;  //set target water temper 85℃
 	Dispenser->temp_setting = target_temper_tbl[mDispenser.temper_index];
-//	Dispenser->disinfect_finish_flag = 0;
-//	Dispenser->disinfect_clr_water_flag = 0;
-//	
-//	mDispenser.heating_enabled = 1;                                 //Enable heating
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_OUT);
+	
+	mDispenser.heating_enabled = 1;                                 //Enable heating
+	TW_Valve_IN;
 	mDispenser.heating_pwr = 100;                                    //Set heating power to xx%
 	mDispenser.pump_speed = 60;                                    //Set pump speed to xx%
 }
 
 void exit_disinfection(WaterDispenser *Dispenser)
 {
-		set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);	
-//	if(mDispenser.need_clear_container == 1){ //clear containter befor eixt disinfect state
-//		mDispenser.CurrentState = STATE_DISINFECT;
-//		mDispenser.disinfect_finish_flag = 1;
-//		set_led_status(LED_ID_WATER_OUT,LED_BLINK);
-//		set_led_status(LED_ID_DISINFECT,LED_ON);
-//		return ;
-//	}
-//	mDispenser.heating_enabled = 0;                                 //Disable heating
-//	mDispenser.disinfect_finish_flag = 0;
-//	mDispenser.disinfect_clr_water_flag = 0;
-//	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
-//	mDispenser.heating_pwr = 0;                       		          //Set heating power to xx%
-//	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
-//	
-//	Alarm_Cancel(&mAlarm);
+	if(mDispenser.need_clear_container == 1){ //clear containter befor eixt disinfect state
+		mDispenser.CurrentState = STATE_DISINFECT;
+		mDispenser.disinfect_finish_flag = 1;
+		set_led_status(LED_ID_WATER_OUT,LED_BLINK);
+		set_led_status(LED_ID_DISINFECT,LED_ON);
+		return ;
+	}
+
+	mDispenser.heating_pwr = 0;                       		          //Set heating power to xx%
+	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
+	
+	Alarm_Cancel(&mAlarm);
 
 }
 
@@ -244,6 +229,7 @@ void dry_burning_handle(WaterDispenser *Dispenser)
 
 void enter_idle(WaterDispenser *Dispenser)
 {
+	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
 	Alarm_Start(&mAlarm,0,0,10,IDLE_ALARM);
 }
 
@@ -258,9 +244,9 @@ const WATER_DISPENSER_ACT WaterDispenser_action[] =
 	enter_lock,    		 			
 	exit_lock,         			
 	change_target_temper,		
-	enter_water_out,  		 	
-	clear_water,						
-	exit_water_out,       	
+	enter_water_out, 					
+	exit_water_out,   
+	clear_water,
 	enter_preheat,         
 	exit_preheat,    				
 	enter_disinfection,      

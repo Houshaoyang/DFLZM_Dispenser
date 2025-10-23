@@ -162,6 +162,7 @@ uint16_t time_cnt_1s = 0;           //1 second counter
 uint16_t time_cnt_500ms = 0;        //500 millisecond counter
 uint16_t time_cnt_10ms = 0;         //10 millisecond counter
 
+alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,2};
 
 //Target temperature table
 uint8_t target_temper_tbl[] = {25,45,55,85,95};
@@ -181,18 +182,9 @@ void System_Init(void)
 	mDispenser.temper_index =0;                          //Initialize temperature index to 0
 	mDispenser.CurrentState = STATE_CHILD_LOCK;          //Initial state is child lock state
 	mDispenser.temp_setting = target_temper_tbl[mDispenser.temper_index];  //Set initial target temperature
-	mDispenser.disinfect_finish_flag = ON;               //Disinfection completion flag initialized to ON
 	mDispenser.fault_code = NO_FAULT;
-	
-	mDispenser.heating_enabled = 0;                                 //Disable heating
-	mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
-	mDispenser.pump_speed = 0;                                     //Set pump speed to xx%
-	mDispenser.need_clear_container = 0;
-	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);        //set three way valve state,GPIO_PIN_RESET: water out, GPIO_PIN_SET: water loop back
-	HAL_GPIO_WritePin(PUMP, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(HEATER, GPIO_PIN_SET);
-	
-	set_all_leds_status(LED_ON,LED_OFF,LED_OFF,LED_OFF,LED_OFF);  //Set all LEDs initial states
+	enter_lock(&mDispenser);
+
 }
 
 /**
@@ -206,10 +198,10 @@ void waterout_process(void)
 	if(mDispenser.heating_enabled == 1)
 	{
 		calculate_pid();
-		if((ptc_out->temper <= mDispenser.temp_setting+3)\
-			&&(ptc_out->temper >= mDispenser.temp_setting-3))//Zero cold water
+		if((ptc_out.temper <= mDispenser.temp_setting+3)\
+			&&(ptc_out.temper >= mDispenser.temp_setting-3))//Zero cold water
 		{
-			HAL_GPIO_WritePin(TW_Valve, TW_Valve_OUT);	// water out
+			TW_Valve_OUT;	// water out
 		}
 	}
 #endif
@@ -249,7 +241,7 @@ void disinfect_process(void)
 	}else{
 		mDispenser.heating_enabled = 0;	//disinfect finish,stop pump,Three way valve dir :waterout
 		mDispenser.pump_speed = 0;
-		HAL_GPIO_WritePin(TW_Valve, TW_Valve_OUT);
+		TW_Valve_OUT;
 		mDispenser.heating_pwr = 0;
   }
 
@@ -304,7 +296,7 @@ void idle_alarm_timeout(void)
 
 void preheat_alarm_timeout(void)
 {
-	mDispenser.heating_enabled = 1; //stop heating
+	mDispenser.heating_enabled = FALSE; //stop heating
 	set_led_status(LED_ID_PRE_HEAT,LED_BLINK);
 }
 /**
@@ -313,6 +305,8 @@ void preheat_alarm_timeout(void)
  */
 void disinfect_alarm_timeout(void)
 {
+	mDispenser.heating_pwr = 0;
+	mDispenser.pump_speed = 0;
 	mDispenser.disinfect_finish_flag = 1;
 	set_led_status(LED_ID_WATER_OUT,LED_BLINK);
 	set_led_status(LED_ID_DISINFECT,LED_ON);
@@ -701,7 +695,7 @@ void display(void)
 		units_num =mDispenser.temp_setting%10; 
 	}else
 	{
-		tens_num = 0x0E;
+		tens_num = 0x0a;
 		units_num =mDispenser.fault_code; 
 	}
 	//Display tens digit
@@ -742,17 +736,19 @@ void display(void)
 			}
 	}
 	//Display temperature indication
-	GPIO_CONFIG(Dr1_group,Dr1,DotDecode[H1][0],DotDecode[H1][5]); 
-	GPIO_CONFIG(Dr2_group,Dr2,DotDecode[H1][1],DotDecode[H1][6]);
-	GPIO_CONFIG(Dr3_group,Dr3,DotDecode[H1][2],DotDecode[H1][7]);
-	GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
-	GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
-	DelayUs(time);
-	GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
-	GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-	GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-	GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
-	GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET);   
+	if(mDispenser.fault_code == NO_FAULT){
+		GPIO_CONFIG(Dr1_group,Dr1,DotDecode[H1][0],DotDecode[H1][5]); 
+		GPIO_CONFIG(Dr2_group,Dr2,DotDecode[H1][1],DotDecode[H1][6]);
+		GPIO_CONFIG(Dr3_group,Dr3,DotDecode[H1][2],DotDecode[H1][7]);
+		GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
+		GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
+		DelayUs(time);
+		GPIO_CONFIG(Dr1_group,Dr1,GPIO_MODE_INPUT,GPIO_PIN_RESET); //set all LEDs input to prevent accidental lighting
+		GPIO_CONFIG(Dr2_group,Dr2,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+		GPIO_CONFIG(Dr3_group,Dr3,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+		GPIO_CONFIG(Dr4_group,Dr4,GPIO_MODE_INPUT,GPIO_PIN_RESET);
+		GPIO_CONFIG(Dr5_group,Dr5,GPIO_MODE_INPUT,GPIO_PIN_RESET); 
+	}
 	#endif
 }
 #endif
@@ -809,7 +805,7 @@ void ADC_Get_Value(void)
 void calculate_pid(void)
 {
     // Calculate current error
-    pid_error = mDispenser.temp_setting - ptc_out->temper;
+    pid_error = mDispenser.temp_setting - ptc_out.temper;
     
     // Calculate integral term
 //    pid_integral += pid_error;
@@ -838,54 +834,41 @@ void calculate_pid(void)
     // Save current error as last error
     pid_last_error = pid_error;
 }
-
+#endif
 /**
  * @brief Safety check function
  * @note Checks for excessive temperature and water shortage, triggers corresponding safety protection measures
  */
 void safety_check(void)
 {
-	if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ)  //check if container empty
-	{ 
-			DelayUs(2000);
-		  if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ)  //check if container empty
-			{
-					if(mDispenser.heating_pwr > 0){
-						mDispenser.fault_code = ERR_DRY_BURNING;
-					}else{
-						mDispenser.fault_code = ERR_WATER_SHORTAGE;
-					}
-//				if(mDispenser.CurrentState == STATE_DISINFECT && mDispenser.need_clear_container == 1)
-//				{
-					mDispenser.need_clear_container = 0;
-					mDispenser.disinfect_finish_flag = 0;
-					mDispenser.disinfect_clr_water_flag = 0;
-//				}else{
-					mDispenser.heating_enabled = 0;                                //Disable heating
-					mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
-					mDispenser.pump_speed = 0;  
-					WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);
-
-	//			HAL_GPIO_WritePin(BUZZER,GPIO_PIN_RESET);	
-//				}
-			
-			}
+	if(mDispenser.pump_speed > 0 && iFlow.HZ < FLOW_0_HZ){  //start DryBurn and WaterShortage detect 2s
+		if(DryBurn_Timer_s.start_flag == TIMERSTOP){
+			DryBurn_Timer_s.start_flag = TIMERSTART;
+			DryBurn_Timer_s.cnt = 0;
+		}	
+	}else{
+		DryBurn_Timer_s.start_flag = TIMERSTOP;
+	}	
+	
+	if(DryBurn_Timer_s.timersup == TURE){			//handle DryBurn and WaterShortage
+		DryBurn_Timer_s.timersup = FALSE;
+		if(mDispenser.heating_pwr > 0){
+			mDispenser.fault_code = ERR_DRY_BURNING;
+		}else{
+			mDispenser.fault_code = ERR_WATER_SHORTAGE;
+		}
+		WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);			
 	}
 	
-	if(mDispenser.pump_speed > 0 && HAL_GPIO_ReadPin(TW_Valve) == TW_Valve_OUT && HAL_GPIO_ReadPin(Micro_SW)== OFF)	//check if Micro_SW off 
-	{
-		mDispenser.heating_enabled = 0;                                //Disable heating
-		HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
-		mDispenser.heating_pwr = 0;                                    //Set heating power to xx%
-		mDispenser.pump_speed = 0;  
-		WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);
-		mDispenser.fault_code = ERR_WATER_SHORTAGE;
-	}
-	
-	if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD \
-		&& (HAL_GPIO_ReadPin(TW_Valve) == TW_Valve_OUT && HAL_GPIO_ReadPin(Micro_SW)== ON))
-	{
-		mDispenser.fault_code = NO_FAULT;
-	}
+//	if(mDispenser.pump_speed > 0 && HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== OFF)	//check if Micro_SW off 
+//	{
+//		mDispenser.fault_code = ERR_WATER_OUTLET_FOLD;
+//	}
+//	
+//	if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD \
+//		&& (HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== ON))
+//	{
+//		mDispenser.fault_code = NO_FAULT;
+//	}
 }
-#endif
+
