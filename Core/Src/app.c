@@ -162,7 +162,7 @@ uint16_t time_cnt_1s = 0;           //1 second counter
 uint16_t time_cnt_500ms = 0;        //500 millisecond counter
 uint16_t time_cnt_10ms = 0;         //10 millisecond counter
 
-alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,2};
+alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,10};
 
 //Target temperature table
 uint8_t target_temper_tbl[] = {25,45,55,85,95};
@@ -360,7 +360,7 @@ void Alarm_Cancel(alarm *alarm)
 	}
 //	else printf("Alarm_Cancel:alarm don't exist \n");
 }
- 
+
 /**
  * @brief Alarm processing function
  * @note Updates alarm time every second, triggers callback function and turns off alarm when time reaches zero
@@ -370,35 +370,28 @@ void Alarm_Process(void)
 
 	if((AlarmTimeBase_1s==1)&&(mAlarm.state == ON)&&(mAlarm.hh > 0 || mAlarm.mm > 0 || mAlarm.ss > 0))
     {
-		if(mAlarm.ss > 0) {
-			mAlarm.ss--;
-		} else {
-			if(mAlarm.mm > 0) {
-				mAlarm.mm--;
-				mAlarm.ss = 59;
+			if(mAlarm.ss > 0) {
+				mAlarm.ss--;
 			} else {
-				if(mAlarm.hh > 0) {
-					mAlarm.hh--;
-					mAlarm.mm = 59;
+				if(mAlarm.mm > 0) {
+					mAlarm.mm--;
 					mAlarm.ss = 59;
-				}                     	 
+				} else {
+					if(mAlarm.hh > 0) {
+						mAlarm.hh--;
+						mAlarm.mm = 59;
+						mAlarm.ss = 59;
+					}                     	 
+				}
 			}
-		}
-		
-		if((mAlarm.hh == 0 && mAlarm.mm == 0 && mAlarm.ss == 0))
-		{
-			if(mAlarm.alarm_timeout_cb) mAlarm.alarm_timeout_cb();
-			 mAlarm.state = OFF;
-			 mAlarm.alarm_timeout_cb = NULL;
-		}
-
-		if(mAlarm.state == ON)
-		{
-//			printf("alarm time remain hh:mm:ss  %d:%d:%d\n",mAlarm.hh,mAlarm.mm,mAlarm.ss);
-		}
-
-//		printf("alarm state : %d \n",mAlarm.state);
-        AlarmTimeBase_1s = 0;    
+			
+			if((mAlarm.hh == 0 && mAlarm.mm == 0 && mAlarm.ss == 0))
+			{
+				if(mAlarm.alarm_timeout_cb) mAlarm.alarm_timeout_cb();
+				 mAlarm.state = OFF;
+				 mAlarm.alarm_timeout_cb = NULL;
+			}
+					AlarmTimeBase_1s = 0;    
     }
  }
 
@@ -857,7 +850,7 @@ void safety_check(void)
 		}else{
 			mDispenser.fault_code = ERR_WATER_SHORTAGE;
 		}
-		WaterDispenser_Eventhandler(&mDispenser,DRY_BURNING_EVT);			
+		WaterDispenser_Eventhandler(&mDispenser,ERROR_EVT);			
 	}
 	
 //	if(mDispenser.pump_speed > 0 && HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== OFF)	//check if Micro_SW off 

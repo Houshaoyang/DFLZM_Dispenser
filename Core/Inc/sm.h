@@ -20,7 +20,7 @@ enum
 	WATER_OUT_PRESS_EVT,
 	PRE_HEAT_PRESS_EVT,
 	DISINFECTION_PRESS_EVT,
-	DRY_BURNING_EVT,
+	ERROR_EVT,
 	EVT_NUM,
 };
 
@@ -29,6 +29,7 @@ typedef enum{
 	ERR_DRY_BURNING,				//
 	ERR_WATER_SHORTAGE,
 	ERR_WATER_OUTLET_FOLD,	//WATER_OUTLET fold but bump working
+	ERR_220V,
 }Err_code;
 
 typedef struct

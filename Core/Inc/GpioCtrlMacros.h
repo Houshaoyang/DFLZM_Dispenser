@@ -26,6 +26,20 @@
 /*****************flow HZ table*********************/
 #define FLOW_0_HZ 12 //0 flow HZ
 
+/***************** flow setting in different target temperature *********************/
+#define PUMP_SPEED_25 100 //25¡æ %
+#define PUMP_SPEED_45 100  //45¡æ %
+#define PUMP_SPEED_55 90  //55¡æ %
+#define PUMP_SPEED_85 70  //85¡æ %
+#define PUMP_SPEED_95 60  //95¡æ %
+
+/***************** heating power setting in different target temperature *********************/
+#define HEATING_PWR_25 70 //25 %
+#define HEATING_PWR_45 80  //45 %
+#define HEATING_PWR_55 90  //55 %
+#define HEATING_PWR_85 100  //85 %
+#define HEATING_PWR_95 100  //95 %
+
 /*****************GPIO port define*********************/
 #define LOCK_LED       GPIOB,GPIO_PIN_15
 #define TEMP_CHG_LED   GPIOA,GPIO_PIN_5

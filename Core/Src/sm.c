@@ -20,7 +20,7 @@ enum
 	EXIT_PRE_HEAT,
 	ENTER_DISINFECT, 
 	EXIT_DISINFECT,
-	DRY_BURNING_HANDLE,
+	ERROR_HANDLE,
 	ENTER_IDLE,
 	EXIT_IDLE,
 	SIGNORE
@@ -34,7 +34,7 @@ static const uint8_t state_table_idle[][NUM_COLS]=
 /* WATER_OUT_PRESS_EVT */ 		   		{EXIT_IDLE,							ENTER_WATER_OUT,          STATE_WATER_OUT },
 /* PRE_HEAT_PRESS_EVT */            {EXIT_IDLE,							ENTER_PRE_HEAT,            STATE_PRE_HEAT },
 /* DISINFECTION_PRESS_EVT */        {EXIT_IDLE,							ENTER_DISINFECT,          STATE_DISINFECT },
-/* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        			  STATE_CHILD_LOCK }
+/* ERROR_EVT			 */      					{SIGNORE,              SIGNORE,        			  STATE_CHILD_LOCK }
 };
 
 static const uint8_t state_table_child_lock[][NUM_COLS]=
@@ -45,7 +45,7 @@ static const uint8_t state_table_child_lock[][NUM_COLS]=
 /* WATER_OUT_PRESS_EVT */ 		  		{SIGNORE,     		   	 SIGNORE,        	 STATE_CHILD_LOCK },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_CHILD_LOCK },
 /* DISINFECTION_PRESS_EVT */        {SIGNORE,              SIGNORE,          STATE_CHILD_LOCK },
-/* DRY_BURNING_EVT */      					{SIGNORE,              SIGNORE,        	 STATE_CHILD_LOCK }
+/* ERROR_EVT			 */      					{SIGNORE,              SIGNORE,        	 STATE_CHILD_LOCK }
 };
 
 static const uint8_t state_table_water_out[][NUM_COLS]=
@@ -56,7 +56,7 @@ static const uint8_t state_table_water_out[][NUM_COLS]=
 /* WATER_OUT_PRESS_EVT */ 		  	  {EXIT_WATER_OUT,       ENTER_LOCK,        	STATE_CHILD_LOCK },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_WATER_OUT },
 /* DISINFECTION_PRESS_EVT */        {SIGNORE,              SIGNORE,          STATE_WATER_OUT },
-/* DRY_BURNING_EVT */      					{SIGNORE,              ENTER_LOCK,        	STATE_CHILD_LOCK }
+/* ERROR_EVT			 */      					{SIGNORE,              ENTER_LOCK,        	STATE_CHILD_LOCK }
 };
 
 static const uint8_t state_table_pre_heatting[][NUM_COLS]=
@@ -67,7 +67,7 @@ static const uint8_t state_table_pre_heatting[][NUM_COLS]=
 /* WATER_OUT_PRESS_EVT */ 				 	{SIGNORE,        	 		 SIGNORE,          STATE_PRE_HEAT },
 /* PRE_HEAT_PRESS_EVT */            {EXIT_PRE_HEAT,        ENTER_LOCK,        STATE_CHILD_LOCK },
 /* DISINFECTION_PRESS_EVT */        {SIGNORE,              SIGNORE,          STATE_PRE_HEAT },
-/* DRY_BURNING_EVT */      					{SIGNORE,              ENTER_LOCK,        STATE_CHILD_LOCK }
+/* ERROR_EVT			 */      					{SIGNORE,              ENTER_LOCK,        STATE_CHILD_LOCK }
 };
 
 static const uint8_t state_table_disinfection[][NUM_COLS]=
@@ -78,7 +78,7 @@ static const uint8_t state_table_disinfection[][NUM_COLS]=
 /* WATER_OUT_PRESS_EVT */ 					{CLEAR_WATER,      	   SIGNORE,          STATE_DISINFECT },
 /* PRE_HEAT_PRESS_EVT */            {SIGNORE,              SIGNORE,        	 STATE_DISINFECT },
 /* DISINFECTION_PRESS_EVT */        {EXIT_DISINFECT,       ENTER_LOCK,         STATE_CHILD_LOCK },
-/* DRY_BURNING_EVT */      					{SIGNORE,              ENTER_LOCK,        	STATE_CHILD_LOCK }
+/* ERROR_EVT			 */      					{SIGNORE,              ENTER_LOCK,        	STATE_CHILD_LOCK }
 };
 
 typedef const uint8_t (*ST_TBL)[NUM_COLS];
@@ -134,20 +134,24 @@ void enter_water_out(WaterDispenser *Dispenser)
 	switch(mDispenser.temp_setting)
 	{
 		case 25:
-			mDispenser.pump_speed = 100;	
-			mDispenser.heating_pwr = 0;			//Set heating power to xx%
+			mDispenser.pump_speed = PUMP_SPEED_25;	
+			mDispenser.heating_pwr = HEATING_PWR_25;			//Set heating power to xx%
 			break;
-		case 45:mDispenser.pump_speed = 80;
-			mDispenser.heating_pwr = 70;		
+		case 45:
+			mDispenser.pump_speed = PUMP_SPEED_45;
+			mDispenser.heating_pwr = HEATING_PWR_45;		
 			break;
-		case 55:mDispenser.pump_speed = 80;
-			mDispenser.heating_pwr = 80;		
+		case 55:
+			mDispenser.pump_speed = PUMP_SPEED_55;
+			mDispenser.heating_pwr = HEATING_PWR_55;		
 			break;
-		case 85:mDispenser.pump_speed = 60;	
-			mDispenser.heating_pwr = 100;
+		case 85:
+			mDispenser.pump_speed = PUMP_SPEED_85;	
+			mDispenser.heating_pwr = HEATING_PWR_85;
 			break;
-		case 95:mDispenser.pump_speed = 40;	
-			mDispenser.heating_pwr = 100;
+		case 95:
+			mDispenser.pump_speed = PUMP_SPEED_95;	
+			mDispenser.heating_pwr = HEATING_PWR_95;
 			break;
 		defualt:break;
 	}
@@ -180,8 +184,8 @@ void enter_preheat(WaterDispenser *Dispenser)
 	
 	mDispenser.heating_enabled = 1;                                 //Enable heating
 	TW_Valve_IN;
-	mDispenser.heating_pwr = 80;                                    //Set heating power to xx%
-	mDispenser.pump_speed = 80;                                    //Set pump speed to xx%
+	mDispenser.heating_pwr = HEATING_PWR_45;                                    //Set heating power to xx%
+	mDispenser.pump_speed = PUMP_SPEED_45;                                    //Set pump speed to xx%
 }
 
 void exit_preheat(WaterDispenser *Dispenser)
@@ -196,17 +200,17 @@ void enter_disinfection(WaterDispenser *Dispenser)
 	mDispenser.temper_index = 3;  //set target water temper 85℃
 	Dispenser->temp_setting = target_temper_tbl[mDispenser.temper_index];
 	
-	mDispenser.heating_enabled = 1;                                 //Enable heating
+	mDispenser.heating_enabled = TURE;                                 //Enable heating
 	TW_Valve_IN;
-	mDispenser.heating_pwr = 100;                                    //Set heating power to xx%
-	mDispenser.pump_speed = 60;                                    //Set pump speed to xx%
+	mDispenser.heating_pwr = HEATING_PWR_85;                                    //Set heating power to xx%
+	mDispenser.pump_speed = PUMP_SPEED_85;                                    //Set pump speed to xx%
 }
 
 void exit_disinfection(WaterDispenser *Dispenser)
 {
-	if(mDispenser.need_clear_container == 1){ //clear containter befor eixt disinfect state
+	if(mDispenser.need_clear_container == TURE){ //clear containter befor eixt disinfect state
 		mDispenser.CurrentState = STATE_DISINFECT;
-		mDispenser.disinfect_finish_flag = 1;
+		mDispenser.disinfect_finish_flag = TURE;
 		set_led_status(LED_ID_WATER_OUT,LED_BLINK);
 		set_led_status(LED_ID_DISINFECT,LED_ON);
 		return ;
@@ -219,7 +223,7 @@ void exit_disinfection(WaterDispenser *Dispenser)
 
 }
 
-void dry_burning_handle(WaterDispenser *Dispenser)
+void error_handle(WaterDispenser *Dispenser)
 {
 //	mDispenser.heating_enabled = 0;                                 //Disable heating
 //	HAL_GPIO_WritePin(TW_Valve, TW_Valve_IN);
@@ -231,6 +235,9 @@ void enter_idle(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_OFF);
 	Alarm_Start(&mAlarm,0,0,10,IDLE_ALARM);
+	if(mDispenser.fault_code != ERR_220V){ 	//if not ~220V fault ,cancel fault code
+		mDispenser.fault_code = NO_FAULT;
+	}
 }
 
 void exit_idle(WaterDispenser *Dispenser)
@@ -251,7 +258,7 @@ const WATER_DISPENSER_ACT WaterDispenser_action[] =
 	exit_preheat,    				
 	enter_disinfection,      
 	exit_disinfection,    
-	dry_burning_handle,
+	error_handle,
 	enter_idle,    				
 	exit_idle,
 	NULL

@@ -163,7 +163,7 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
-		safety_check();
+//		safety_check();
 //		HAL_GPIO_TogglePin(BUZZER);
 //		DelayUs(20000);
   }
@@ -214,6 +214,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(GPIO_Pin);
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
+		mDispenser.heating_enabled = FALSE;
 		if(mDispenser.heating_enabled == TURE){
 			++PassZero_Detect.pulse_cnt;
 			heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
@@ -296,7 +297,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         if(pump_cnt < (mDispenser.pump_speed/10))
 				{
 					PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
-				}  
+				}
 				else PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 				
 				if(IntZero_timer_ms.start_flag == TIMERSTART){	//	conduction angle count

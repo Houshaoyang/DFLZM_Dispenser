@@ -28,6 +28,7 @@ Project File Date:  10/23/2025
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\install\keil526\ARM\ARMCC\Bin'
 Rebuild target 'DFLZM_Dispenser'
 assembling startup_stm32f030x6.s...
+compiling gpio.c...
 compiling flash.c...
 ..\Core\Src\flash.c(18): warning:  #550-D: variable "flash_err"  was set but never used
   	uint8_t flash_err =0;
@@ -36,15 +37,14 @@ compiling flash.c...
 ..\Core\Src\flash.c(60): warning:  #1-D: last line of file ends without a newline
   }
 ..\Core\Src\flash.c: 3 warnings, 0 errors
+compiling main.c...
+compiling adc.c...
 compiling sm.c...
-..\Core\Src\sm.c(152): warning:  #177-D: label "defualt"  was declared but never referenced
+..\Core\Src\sm.c(156): warning:  #177-D: label "defualt"  was declared but never referenced
   		defualt:break;
-..\Core\Src\sm.c(267): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\sm.c(274): warning:  #188-D: enumerated type mixed with another type
   	Dispenser->CurrentState = state_table[event][SNEXT_STATE];
 ..\Core\Src\sm.c: 2 warnings, 0 errors
-compiling gpio.c...
-compiling adc.c...
-compiling main.c...
 compiling tim.c...
 compiling app.c...
 ..\Core\Src\app.c(176): warning:  #188-D: enumerated type mixed with another type
@@ -57,60 +57,60 @@ compiling app.c...
   	key_pre_heat.status = get_key_io_level(key_pre_heat.id);
 ..\Core\Src\app.c(180): warning:  #188-D: enumerated type mixed with another type
   	key_disinfect.status = get_key_io_level(key_disinfect.id);
-..\Core\Src\app.c(422): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(415): warning:  #188-D: enumerated type mixed with another type
   	GPIO_PinState ret = 1;
-..\Core\Src\app.c(482): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(475): warning:  #188-D: enumerated type mixed with another type
   		_key->status = PinState;
-..\Core\Src\app.c(557): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(550): warning:  #188-D: enumerated type mixed with another type
   	led_tbl[led_index].status = status;
-..\Core\Src\app.c(561): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(554): warning:  #188-D: enumerated type mixed with another type
   				 HAL_GPIO_WritePin(LOCK_LED,status);
-..\Core\Src\app.c(565): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(558): warning:  #188-D: enumerated type mixed with another type
   				HAL_GPIO_WritePin(TEMP_CHG_LED,status);
-..\Core\Src\app.c(569): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(562): warning:  #188-D: enumerated type mixed with another type
   				 HAL_GPIO_WritePin(WATEROUT_LED,status);
-..\Core\Src\app.c(573): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(566): warning:  #188-D: enumerated type mixed with another type
   			   HAL_GPIO_WritePin(PREHEAT_LED,status);
-..\Core\Src\app.c(577): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(570): warning:  #188-D: enumerated type mixed with another type
   				HAL_GPIO_WritePin(DISINFECT_LED,status);
-..\Core\Src\app.c(706): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(699): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr1_group,Dr1,DotDecode[i][0],DotDecode[i][5]); 
-..\Core\Src\app.c(707): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(700): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr2_group,Dr2,DotDecode[i][1],DotDecode[i][6]);
-..\Core\Src\app.c(708): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(701): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr3_group,Dr3,DotDecode[i][2],DotDecode[i][7]);
-..\Core\Src\app.c(709): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(702): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[i][3],DotDecode[i][8]);
-..\Core\Src\app.c(710): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(703): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[i][4],DotDecode[i][9]);
-..\Core\Src\app.c(725): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(718): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr1_group,Dr1,DotDecode[j][0],DotDecode[j][5]); 
-..\Core\Src\app.c(726): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(719): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr2_group,Dr2,DotDecode[j][1],DotDecode[j][6]);
-..\Core\Src\app.c(727): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(720): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr3_group,Dr3,DotDecode[j][2],DotDecode[j][7]);
-..\Core\Src\app.c(728): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(721): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr4_group,Dr4,DotDecode[j][3],DotDecode[j][8]);
-..\Core\Src\app.c(729): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(722): warning:  #188-D: enumerated type mixed with another type
   			GPIO_CONFIG(Dr5_group,Dr5,DotDecode[j][4],DotDecode[j][9]);
-..\Core\Src\app.c(740): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(733): warning:  #188-D: enumerated type mixed with another type
   		GPIO_CONFIG(Dr1_group,Dr1,DotDecode[H1][0],DotDecode[H1][5]); 
-..\Core\Src\app.c(741): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(734): warning:  #188-D: enumerated type mixed with another type
   		GPIO_CONFIG(Dr2_group,Dr2,DotDecode[H1][1],DotDecode[H1][6]);
-..\Core\Src\app.c(742): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(735): warning:  #188-D: enumerated type mixed with another type
   		GPIO_CONFIG(Dr3_group,Dr3,DotDecode[H1][2],DotDecode[H1][7]);
-..\Core\Src\app.c(743): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(736): warning:  #188-D: enumerated type mixed with another type
   		GPIO_CONFIG(Dr4_group,Dr4,DotDecode[H1][3],DotDecode[H1][8]);
-..\Core\Src\app.c(744): warning:  #188-D: enumerated type mixed with another type
+..\Core\Src\app.c(737): warning:  #188-D: enumerated type mixed with another type
   		GPIO_CONFIG(Dr5_group,Dr5,DotDecode[H1][4],DotDecode[H1][9]);
 ..\Core\Src\app.c: 28 warnings, 0 errors
-compiling stm32f0xx_it.c...
 compiling stm32f0xx_hal_timebase_tim.c...
-compiling stm32f0xx_hal_msp.c...
 compiling stm32f0xx_hal_adc_ex.c...
-compiling stm32f0xx_hal_adc.c...
-compiling stm32f0xx_hal_rcc.c...
+compiling stm32f0xx_it.c...
+compiling stm32f0xx_hal_msp.c...
 compiling stm32f0xx_hal_rcc_ex.c...
+compiling stm32f0xx_hal_rcc.c...
+compiling stm32f0xx_hal_adc.c...
 compiling stm32f0xx_hal_i2c_ex.c...
 compiling stm32f0xx_hal.c...
 compiling stm32f0xx_hal_gpio.c...
@@ -118,15 +118,15 @@ compiling stm32f0xx_hal_cortex.c...
 compiling stm32f0xx_hal_pwr.c...
 compiling stm32f0xx_hal_dma.c...
 compiling stm32f0xx_hal_pwr_ex.c...
-compiling stm32f0xx_hal_flash.c...
-compiling stm32f0xx_hal_exti.c...
-compiling stm32f0xx_hal_i2c.c...
 compiling stm32f0xx_hal_flash_ex.c...
+compiling stm32f0xx_hal_i2c.c...
+compiling stm32f0xx_hal_exti.c...
+compiling stm32f0xx_hal_flash.c...
 compiling stm32f0xx_hal_tim_ex.c...
 compiling system_stm32f0xx.c...
 compiling stm32f0xx_hal_tim.c...
 linking...
-Program Size: Code=10688 RO-data=1076 RW-data=124 ZI-data=1988  
+Program Size: Code=10548 RO-data=1076 RW-data=124 ZI-data=1988  
 FromELF: creating hex file...
 "DFLZM_Dispenser\DFLZM_Dispenser.axf" - 0 Error(s), 33 Warning(s).
 
@@ -151,7 +151,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.1.2
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
