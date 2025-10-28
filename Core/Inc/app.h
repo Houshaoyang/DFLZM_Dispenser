@@ -89,7 +89,7 @@ typedef struct {
 		unsigned char channel;
     unsigned char buffer_id;
     uint16_t buffer[10];
-    uint16_t temper;
+    volatile int temper;
 }ptc;
 
 /**************define global variable*********/

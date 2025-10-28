@@ -35,7 +35,7 @@ typedef enum{
 typedef struct
 {
 	State CurrentState;					//饮水机当前状态
-	uint8_t temp_setting;				//目标温度
+	volatile int temp_setting;				//目标温度
 	uint8_t disinfect_finish_flag; 		//加热消毒结束 1，未结束 0
 	uint8_t disinfect_clr_water_flag;	//清空消毒，开始清空 1，未开启清空0
 	uint8_t temper_index;

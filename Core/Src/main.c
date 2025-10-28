@@ -95,7 +95,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint16_t	pid_timer_flag = FALSE;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -142,7 +142,7 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim16);
-//			HAL_TIM_Base_Start_IT(&htim17);	
+	HAL_TIM_Base_Start_IT(&htim17);	
 	HAL_ADCEx_Calibration_Start(&hadc);
 	System_Init();
 
@@ -163,9 +163,12 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
+//		if(pid_timer_flag == TURE){	//500ms
+//			pid_timer_flag = FALSE;
+//			calculate_pid();
+//		}
 //		safety_check();
-//		HAL_GPIO_TogglePin(BUZZER);
-//		DelayUs(20000);
+
   }
   /* USER CODE END 3 */
 }
@@ -214,7 +217,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(GPIO_Pin);
 	if(GPIO_Pin == GPIO_PIN_0)		//Zero_detect_pin
 	{
-		mDispenser.heating_enabled = FALSE;
+//		mDispenser.heating_enabled = FALSE;
 		if(mDispenser.heating_enabled == TURE){
 			++PassZero_Detect.pulse_cnt;
 			heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
@@ -291,14 +294,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             iFlow.pulse_cnt =0;  //????????????		
 						PassZero_Detect.HZ = PassZero_Detect.pulse_cnt;
 						PassZero_Detect.pulse_cnt = 0;
+						pid_timer_flag = TURE;
         }
-
-        pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
-        if(pump_cnt < (mDispenser.pump_speed/10))
-				{
-					PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
-				}
-				else PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 				
 				if(IntZero_timer_ms.start_flag == TIMERSTART){	//	conduction angle count
 					if(IntZero_timer_ms.cnt < IntZero_timer_ms.time_setting){
@@ -311,8 +308,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				}
 		}
 		
-		if (htim->Instance == TIM17) {
-			HAL_TIM_Base_Stop_IT(&htim17);
+		if(htim->Instance == TIM17) {
+			if(mDispenser.pump_speed >0 && mDispenser.pump_speed < PUMP_SPEED_MIN){
+				mDispenser.pump_speed =	PUMP_SPEED_MIN; //limit the min pump speed 50%
+				}
+			pump_cnt = (pump_cnt + 1) % 100;		//pump power control pwm frequence 1000/5 HZ 
+			if(pump_cnt < mDispenser.pump_speed)
+			{
+				PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+			}else{
+				PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+			}
 		}
 		
   /* USER CODE END Callback 1 */

@@ -5,7 +5,7 @@
 /*****************debug ctrl define*********************/
 #define ENABLE_DEBUG_PTC 1
 #define ENABLE_DEBUG_DISPLAY 1
-//#define ENABLE_DEBUG_PID 1
+#define ENABLE_DEBUG_PID 1
 //#define SEGMENTCODE_TEST 1
 
 /**************define macro*********/
@@ -28,17 +28,25 @@
 
 /***************** flow setting in different target temperature *********************/
 #define PUMP_SPEED_25 100 //25¡æ %
-#define PUMP_SPEED_45 100  //45¡æ %
-#define PUMP_SPEED_55 90  //55¡æ %
+#define PUMP_SPEED_45 50  //45¡æ %
+#define PUMP_SPEED_55 80  //55¡æ %
 #define PUMP_SPEED_85 70  //85¡æ %
 #define PUMP_SPEED_95 60  //95¡æ %
+#define PUMP_SPEED_MIN 50  //limit the min pump speed to 50%
 
 /***************** heating power setting in different target temperature *********************/
 #define HEATING_PWR_25 70 //25 %
-#define HEATING_PWR_45 80  //45 %
+#define HEATING_PWR_45 100  //45 %
 #define HEATING_PWR_55 90  //55 %
 #define HEATING_PWR_85 100  //85 %
 #define HEATING_PWR_95 100  //95 %
+
+/***************** PID control parameters *********************/
+#define PID_TEMPER_THRESHOLD 45
+#define INTEGRAL_ENABLE_THRESHOLD 5
+#define PID_KP 2.0       //Proportional gain
+#define PID_KI 0.1       //Integral gain
+#define PID_KD 0.5       //Derivative gain
 
 /*****************GPIO port define*********************/
 #define LOCK_LED       GPIOB,GPIO_PIN_15

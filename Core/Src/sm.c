@@ -123,35 +123,38 @@ void change_target_temper(WaterDispenser *Dispenser)
 void enter_water_out(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_BLINK,LED_OFF,LED_OFF);
-	if(mDispenser.temp_setting == 25)	{
-		mDispenser.heating_enabled = FALSE; //Disable heating
-		TW_Valve_OUT;	
-	}else{
-		mDispenser.heating_enabled = TURE;
-		TW_Valve_IN;
-	}
 
 	switch(mDispenser.temp_setting)
 	{
 		case 25:
+			TW_Valve_OUT;	
 			mDispenser.pump_speed = PUMP_SPEED_25;	
 			mDispenser.heating_pwr = HEATING_PWR_25;			//Set heating power to xx%
+			mDispenser.heating_enabled = FALSE; //Disable heating
 			break;
 		case 45:
+			TW_Valve_IN;
 			mDispenser.pump_speed = PUMP_SPEED_45;
-			mDispenser.heating_pwr = HEATING_PWR_45;		
+			mDispenser.heating_pwr = HEATING_PWR_45;	
+			mDispenser.heating_enabled = TURE;		
 			break;
 		case 55:
+			TW_Valve_IN;
 			mDispenser.pump_speed = PUMP_SPEED_55;
-			mDispenser.heating_pwr = HEATING_PWR_55;		
+			mDispenser.heating_pwr = HEATING_PWR_55;
+			mDispenser.heating_enabled = TURE;			
 			break;
 		case 85:
+			TW_Valve_IN;
 			mDispenser.pump_speed = PUMP_SPEED_85;	
 			mDispenser.heating_pwr = HEATING_PWR_85;
+			mDispenser.heating_enabled = TURE;	
 			break;
 		case 95:
+			TW_Valve_IN;
 			mDispenser.pump_speed = PUMP_SPEED_95;	
 			mDispenser.heating_pwr = HEATING_PWR_95;
+			mDispenser.heating_enabled = TURE;	
 			break;
 		defualt:break;
 	}
@@ -196,7 +199,7 @@ void exit_preheat(WaterDispenser *Dispenser)
 void enter_disinfection(WaterDispenser *Dispenser)
 {
 	set_all_leds_status(LED_OFF,LED_OFF,LED_OFF,LED_OFF,LED_BLINK);
-	Alarm_Start(&mAlarm,0,0,10,DISINFECT_ALARM);
+	Alarm_Start(&mAlarm,0,0,10,DISINFECT_ALARM);//disinfect time : 20 min
 	mDispenser.temper_index = 3;  //set target water temper 85℃
 	Dispenser->temp_setting = target_temper_tbl[mDispenser.temper_index];
 	

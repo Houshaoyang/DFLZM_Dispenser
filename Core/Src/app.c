@@ -143,10 +143,6 @@ pulse_counter iFlow,PassZero_Detect;
 volatile uint16_t Flow_Value = 0;
 
 // PID control parameters
-#define INTEGRAL_ENABLE_THRESHOLD 5
-#define PID_KP 2.0       //Proportional gain
-#define PID_KI 0.1       //Integral gain
-#define PID_KD 0.5       //Derivative gain
 volatile int pid_error = 0;         //Current error
 volatile int pid_last_error = 0;    //Previous error
 volatile int pid_integral = 0;      //Integral term
@@ -193,18 +189,10 @@ void System_Init(void)
  */
 void waterout_process(void)
 {
-	
-#ifdef ENABLE_DEBUG_PID	
-	if(mDispenser.heating_enabled == 1)
-	{
-		calculate_pid();
-		if((ptc_out.temper <= mDispenser.temp_setting+3)\
-			&&(ptc_out.temper >= mDispenser.temp_setting-3))//Zero cold water
-		{
-			TW_Valve_OUT;	// water out
-		}
+	if((mDispenser.temp_setting != 25) && (HAL_GPIO_ReadPin(TW_Valve) == IN)\
+		&&(ptc_out.temper <= mDispenser.temp_setting+3 && ptc_out.temper >= mDispenser.temp_setting-3)){ //
+		TW_Valve_OUT;
 	}
-#endif
 }
 
 /**
@@ -213,16 +201,12 @@ void waterout_process(void)
  */
 void preheat_process(void)
 {	
-	if(ptc_in.temper >= 45 && mDispenser.heating_enabled == 1){		//preheat finished
-		mDispenser.heating_enabled = 0; //stop heating
+	if(ptc_in.temper >= 45 && mDispenser.heating_enabled == TURE){		//preheat finished
+		mDispenser.heating_enabled = FALSE; //stop heating
 		mDispenser.heating_pwr = 0;
 		mDispenser.pump_speed = 0;
 		Alarm_Start(&mAlarm,0,3,0,PREHEAT_ALARM);
 		set_led_status(LED_ID_PRE_HEAT,LED_ON);
-	}else{
-		#ifdef ENABLE_DEBUG_PID
-		if(mDispenser.heating_enabled == 1) calculate_pid();
-		#endif
 	}
 }
 
@@ -233,22 +217,13 @@ void preheat_process(void)
  */
 void disinfect_process(void)
 {
-	if(mDispenser.disinfect_finish_flag == 0)	{
-		#ifdef ENABLE_DEBUG_PID
-    calculate_pid();
-		if(mAlarm.mm < 27) mDispenser.need_clear_container =1;
-		#endif
-	}else{
-		mDispenser.heating_enabled = 0;	//disinfect finish,stop pump,Three way valve dir :waterout
-		mDispenser.pump_speed = 0;
-		TW_Valve_OUT;
-		mDispenser.heating_pwr = 0;
-  }
-
-//	if(mDispenser.disinfect_clr_water_flag == 1){  //Clear water after disinfection  impliment in clear_water()
-//		if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD) return;
-//		mDispenser.pump_speed = 100;
-//    }else  mDispenser.pump_speed = 0;						
+	if(mDispenser.disinfect_finish_flag == FALSE)	{
+		if(mAlarm.mm < 17) mDispenser.need_clear_container =TURE;//if start disinfect 3 min，need to clear container
+	}
+	if(mDispenser.disinfect_clr_water_flag == 1){  //Clear water after disinfection  impliment in clear_water()
+		if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD) return;
+		mDispenser.pump_speed = 100;
+    }else  mDispenser.pump_speed = 0;						
 }
 
 /**
@@ -296,8 +271,10 @@ void idle_alarm_timeout(void)
 
 void preheat_alarm_timeout(void)
 {
-	mDispenser.heating_enabled = FALSE; //stop heating
 	set_led_status(LED_ID_PRE_HEAT,LED_BLINK);
+	mDispenser.heating_enabled = TURE; //stop heating
+	mDispenser.heating_pwr = HEATING_PWR_45;                                    //Set heating power to xx%
+	mDispenser.pump_speed = PUMP_SPEED_45;                                    //Set pump speed to xx%
 }
 /**
  * @brief Disinfection alarm timeout processing function
@@ -305,9 +282,13 @@ void preheat_alarm_timeout(void)
  */
 void disinfect_alarm_timeout(void)
 {
+	mDispenser.heating_enabled = FALSE;
 	mDispenser.heating_pwr = 0;
 	mDispenser.pump_speed = 0;
-	mDispenser.disinfect_finish_flag = 1;
+	mDispenser.disinfect_finish_flag = TURE;
+	mDispenser.need_clear_container =TURE;
+		//disinfect finish,stop pump,Three way valve dir :waterout
+	TW_Valve_OUT;
 	set_led_status(LED_ID_WATER_OUT,LED_BLINK);
 	set_led_status(LED_ID_DISINFECT,LED_ON);
 }
@@ -795,7 +776,7 @@ void ADC_Get_Value(void)
  * @brief PID control calculation function
  * @note Calculates PID output based on target temperature and actual temperature for controlling heating power
  */
-void calculate_pid(void)
+void calculate_heater_pid(void)
 {
     // Calculate current error
     pid_error = mDispenser.temp_setting - ptc_out.temper;
@@ -826,6 +807,22 @@ void calculate_pid(void)
     mDispenser.heating_pwr = pid_output;
     // Save current error as last error
     pid_last_error = pid_error;
+}
+
+void calculate_flow_pid(void){
+
+}
+
+void calculate_pid(void){
+	if(mDispenser.heating_enabled == TURE){
+		if(mDispenser.temp_setting >= ptc_in.temper + PID_TEMPER_THRESHOLD){
+			mDispenser.heating_pwr = 100;
+			calculate_flow_pid();
+		}else{
+			mDispenser.pump_speed = 100;
+			calculate_heater_pid();
+		}
+	}
 }
 #endif
 /**
