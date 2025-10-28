@@ -143,10 +143,7 @@ pulse_counter iFlow,PassZero_Detect;
 volatile uint16_t Flow_Value = 0;
 
 // PID control parameters
-volatile int pid_error = 0;         //Current error
-volatile int pid_last_error = 0;    //Previous error
-volatile int pid_integral = 0;      //Integral term
-int pid_output = 0;                 //PID output
+pid_para pid_para_heater={0,0,0,0},pid_para_pump={0,0,0,0};
 
 volatile unsigned char heating_cnt = 0;            //Duty cycle count (0-10)
 volatile unsigned char pump_cnt = 0;               //Pump duty cycle count (0-5)
@@ -779,34 +776,34 @@ void ADC_Get_Value(void)
 void calculate_heater_pid(void)
 {
     // Calculate current error
-    pid_error = mDispenser.temp_setting - ptc_out.temper;
+    pid_para_heater.pid_error = mDispenser.temp_setting - ptc_out.temper;
     
     // Calculate integral term
 //    pid_integral += pid_error;
 
-	if(abs(pid_error) < INTEGRAL_ENABLE_THRESHOLD)
+	if(abs(pid_para_heater.pid_error) < INTEGRAL_ENABLE_THRESHOLD)
 	{
-		pid_integral += pid_error;  // 误差小时才累积积分
+		pid_para_heater.pid_integral += pid_para_heater.pid_error;  // 误差小时才累积积分
 	}else{
-		pid_integral = 0;  // 误差大时清零积分，避免饱和
+		pid_para_heater.pid_integral = 0;  // 误差大时清零积分，避免饱和
 	}
     
     // Integral limit to prevent integral saturation
-    if (pid_integral > 100) pid_integral = 100;
-    if (pid_integral < -100) pid_integral = -100;
+    if (pid_para_heater.pid_integral > 100) pid_para_heater.pid_integral = 100;
+    if (pid_para_heater.pid_integral < -100) pid_para_heater.pid_integral = -100;
     
     // Calculate derivative term
-    int derivative = pid_error - pid_last_error;
+    int derivative = pid_para_heater.pid_error - pid_para_heater.pid_last_error;
     
     // Calculate PID output
-    pid_output = (PID_KP * pid_error) + (PID_KI * pid_integral) + (PID_KD * derivative);
+    pid_para_heater.pid_output = (PID_KP_H * pid_para_heater.pid_error) + (PID_KI_H * pid_para_heater.pid_integral) + (PID_KD_H * derivative);
     
     // Output limit
-    if (pid_output > 100) pid_output = 100;
-    if (pid_output < 0) pid_output = 0;
-    mDispenser.heating_pwr = pid_output;
+    if (pid_para_heater.pid_output > 100) pid_para_heater.pid_output = 100;
+    if (pid_para_heater.pid_output < 0) pid_para_heater.pid_output = 0;
+    mDispenser.heating_pwr = pid_para_heater.pid_output;
     // Save current error as last error
-    pid_last_error = pid_error;
+    pid_para_heater.pid_last_error = pid_para_heater.pid_error;
 }
 
 void calculate_flow_pid(void){

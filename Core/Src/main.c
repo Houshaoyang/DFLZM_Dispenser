@@ -163,10 +163,11 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
-//		if(pid_timer_flag == TURE){	//500ms
-//			pid_timer_flag = FALSE;
-//			calculate_pid();
-//		}
+		if(pid_timer_flag == TURE){	//500ms
+			pid_timer_flag = FALSE;
+			calculate_pid();
+		}
+		
 //		safety_check();
 
   }
@@ -221,11 +222,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		if(mDispenser.heating_enabled == TURE){
 			++PassZero_Detect.pulse_cnt;
 			heating_cnt = (heating_cnt + 1) % 10;		//pump power control pwm frequence 1000/5 HZ 
+			
 			if(heating_cnt < (mDispenser.heating_pwr/10)){
-			HEATER_ON;
-//			HAL_TIM_Base_Start_IT(&htim17);		
-			IntZero_timer_ms.start_flag = TIMERSTART ;	//	start conduction angle timer 
-		}	
+				HEATER_ON;
+				IntZero_timer_ms.start_flag = TIMERSTART ;	//	start conduction angle timer 
+			}	
 		}
 
 	}

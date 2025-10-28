@@ -92,6 +92,12 @@ typedef struct {
     volatile int temper;
 }ptc;
 
+typedef struct {
+	int pid_error;         //Current error
+	int pid_last_error;    //Previous error
+	int pid_integral;      //Integral term
+	int pid_output; 
+}pid_para;
 /**************define global variable*********/
 extern alarm mAlarm;
 extern WaterDispenser mDispenser;

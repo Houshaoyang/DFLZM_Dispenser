@@ -27,26 +27,29 @@
 #define FLOW_0_HZ 12 //0 flow HZ
 
 /***************** flow setting in different target temperature *********************/
-#define PUMP_SPEED_25 100 //25¡æ %
-#define PUMP_SPEED_45 50  //45¡æ %
-#define PUMP_SPEED_55 80  //55¡æ %
-#define PUMP_SPEED_85 70  //85¡æ %
-#define PUMP_SPEED_95 60  //95¡æ %
+#define PUMP_SPEED_25 100 //25¡æ xx%
+#define PUMP_SPEED_45 100  //45¡æ 100xx%
+#define PUMP_SPEED_55 100  //55¡æ 100xx%
+#define PUMP_SPEED_85 80  //85¡æ xx%
+#define PUMP_SPEED_95 70  //95¡æ xx%
 #define PUMP_SPEED_MIN 50  //limit the min pump speed to 50%
 
 /***************** heating power setting in different target temperature *********************/
-#define HEATING_PWR_25 70 //25 %
-#define HEATING_PWR_45 100  //45 %
-#define HEATING_PWR_55 90  //55 %
-#define HEATING_PWR_85 100  //85 %
-#define HEATING_PWR_95 100  //95 %
+#define HEATING_PWR_25 0 //25¡æ xx%
+#define HEATING_PWR_45 50  //45¡æ 50xx%
+#define HEATING_PWR_55 60  //55¡æ 70xx%
+#define HEATING_PWR_85 100  //85¡æ xx%
+#define HEATING_PWR_95 100  //95¡æ xx%
 
-/***************** PID control parameters *********************/
+/***************** PID control parameters  *********************/
 #define PID_TEMPER_THRESHOLD 45
 #define INTEGRAL_ENABLE_THRESHOLD 5
-#define PID_KP 2.0       //Proportional gain
-#define PID_KI 0.1       //Integral gain
-#define PID_KD 0.5       //Derivative gain
+#define PID_KP_H 2.0       //heater Proportional gain
+#define PID_KI_H 0.1       //heater Integral gain
+#define PID_KD_H 0.5       //heater Derivative gain
+#define PID_KP_P 2.0       //pump Proportional gain
+#define PID_KI_P 0.1       //pump Integral gain
+#define PID_KD_P 0.5       //pump Derivative gain
 
 /*****************GPIO port define*********************/
 #define LOCK_LED       GPIOB,GPIO_PIN_15
