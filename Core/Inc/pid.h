@@ -15,4 +15,5 @@ typedef struct PID_
 
 void pid_init(double kp, double ki, double kd, PID *pid);
 void incrementalPid(PID *pid,float setValue,float actualValue,float *total_output);
+void positionPid(PID *pid,float setValue,float actualValue,float *total_output);
 #endif
