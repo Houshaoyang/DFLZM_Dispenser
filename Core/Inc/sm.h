@@ -41,8 +41,8 @@ typedef struct
 	uint8_t temper_index;
 	Err_code fault_code;
 	uint8_t heating_enabled;        // 
-	uint8_t heating_pwr;        // 
-	uint8_t pump_speed;             // 
+	float heating_pwr;        // 
+	float pump_speed;             // 
 	uint8_t need_clear_container;             // 
 }WaterDispenser;
 

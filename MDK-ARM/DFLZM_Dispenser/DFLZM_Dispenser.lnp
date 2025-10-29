@@ -10,6 +10,7 @@
 "dflzm_dispenser\stm32f0xx_it.o"
 "dflzm_dispenser\stm32f0xx_hal_msp.o"
 "dflzm_dispenser\stm32f0xx_hal_timebase_tim.o"
+"dflzm_dispenser\pid.o"
 "dflzm_dispenser\stm32f0xx_hal_adc.o"
 "dflzm_dispenser\stm32f0xx_hal_adc_ex.o"
 "dflzm_dispenser\stm32f0xx_hal_rcc.o"

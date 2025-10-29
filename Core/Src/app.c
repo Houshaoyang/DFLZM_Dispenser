@@ -2,6 +2,7 @@
 //#include <stdio.h>
 #include <stdlib.h>
 #include "adc.h"
+#include "pid.h"
 //===========================================================
 //----------Temperature comparison table (ADC values corresponding to 0 to 100℃)
 static const unsigned int temptab[]={  //0 to 100℃ 
@@ -144,6 +145,7 @@ volatile uint16_t Flow_Value = 0;
 
 // PID control parameters
 pid_para pid_para_heater={0,0,0,0},pid_para_pump={0,0,0,0};
+PID pid_heater;
 
 volatile unsigned char heating_cnt = 0;            //Duty cycle count (0-10)
 volatile unsigned char pump_cnt = 0;               //Pump duty cycle count (0-5)
@@ -171,6 +173,8 @@ void System_Init(void)
 	key_water_out.status = get_key_io_level(key_water_out.id);
 	key_pre_heat.status = get_key_io_level(key_pre_heat.id);
 	key_disinfect.status = get_key_io_level(key_disinfect.id);
+	
+	pid_init(PID_KP_H,PID_KI_H,PID_KD_H,&pid_heater);
 	
 	mDispenser.temper_index =0;                          //Initialize temperature index to 0
 	mDispenser.CurrentState = STATE_CHILD_LOCK;          //Initial state is child lock state
@@ -812,13 +816,15 @@ void calculate_flow_pid(void){
 
 void calculate_pid(void){
 	if(mDispenser.heating_enabled == TURE){
-		if(mDispenser.temp_setting >= ptc_in.temper + PID_TEMPER_THRESHOLD){
-			mDispenser.heating_pwr = 100;
-			calculate_flow_pid();
-		}else{
-			mDispenser.pump_speed = 100;
-			calculate_heater_pid();
-		}
+		incrementalPid(&pid_heater,mDispenser.temp_setting,ptc_out.temper,&mDispenser.heating_pwr);
+//		if(mDispenser.temp_setting >= ptc_in.temper + PID_TEMPER_THRESHOLD){
+//			mDispenser.heating_pwr = 100;
+//			calculate_flow_pid();
+//		}else{
+//			mDispenser.pump_speed = 100;
+////			calculate_heater_pid();
+//			incrementalPid(&pid_heater,mDispenser.temp_setting,ptc_out.temper,&mDispenser.heating_pwr);
+//		}
 	}
 }
 #endif

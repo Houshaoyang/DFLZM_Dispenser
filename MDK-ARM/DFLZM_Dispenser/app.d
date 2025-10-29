@@ -38,3 +38,4 @@ dflzm_dispenser\app.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.
 dflzm_dispenser\app.o: ../Core/Inc/GpioCtrlMacros.h
 dflzm_dispenser\app.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stdlib.h
 dflzm_dispenser\app.o: ../Core/Inc/adc.h
+dflzm_dispenser\app.o: ../Core/Inc/pid.h

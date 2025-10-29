@@ -44,8 +44,8 @@
 /***************** PID control parameters  *********************/
 #define PID_TEMPER_THRESHOLD 45
 #define INTEGRAL_ENABLE_THRESHOLD 5
-#define PID_KP_H 2.0       //heater Proportional gain
-#define PID_KI_H 0.1       //heater Integral gain
+#define PID_KP_H 1.5       //heater Proportional gain
+#define PID_KI_H 0.2       //heater Integral gain
 #define PID_KD_H 0.5       //heater Derivative gain
 #define PID_KP_P 2.0       //pump Proportional gain
 #define PID_KI_P 0.1       //pump Integral gain
