@@ -5,6 +5,7 @@
 #include "sm.h"
 #include "gpio.h"
 #include "GpioCtrlMacros.h"
+#include "pid.h"
 //#include "flash.h"
 
 /**************define struct*********/
@@ -107,7 +108,7 @@ extern pulse_counter iFlow,PassZero_Detect;
 extern ptc	ptc_in,ptc_out;
 //extern uint32_t adc_value[2];
 #endif
-
+extern PID pid_heater;
 extern volatile uint16_t Flow_Value;
 extern int pid_output;
 extern volatile unsigned char heating_cnt;               // 占空比计数值（0-10）

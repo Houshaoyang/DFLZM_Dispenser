@@ -174,7 +174,7 @@ void System_Init(void)
 	key_pre_heat.status = get_key_io_level(key_pre_heat.id);
 	key_disinfect.status = get_key_io_level(key_disinfect.id);
 	
-	pid_init(PID_KP_H,PID_KI_H,PID_KD_H,&pid_heater);
+	pid_init(PID_KP_H,PID_KI_H,PID_KD_H,DRIECT,&pid_heater);
 	
 	mDispenser.temper_index =0;                          //Initialize temperature index to 0
 	mDispenser.CurrentState = STATE_CHILD_LOCK;          //Initial state is child lock state

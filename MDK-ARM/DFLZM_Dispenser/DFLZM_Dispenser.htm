@@ -3,7 +3,7 @@
 <title>Static Call Graph - [DFLZM_Dispenser\DFLZM_Dispenser.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image DFLZM_Dispenser\DFLZM_Dispenser.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Oct 29 14:55:54 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Oct 30 09:58:55 2025
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -906,7 +906,7 @@ Global Symbols
 <P><STRONG><a name="[20]"></a>SystemInit</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, system_stm32f0xx.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f030x6.o(.text)
 </UL>
-<P><STRONG><a name="[90]"></a>System_Init</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, app.o(i.System_Init))
+<P><STRONG><a name="[90]"></a>System_Init</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, app.o(i.System_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = System_Init &rArr; enter_lock &rArr; set_all_leds_status &rArr; set_led_status &rArr; __ARM_common_switch8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_init
@@ -1109,7 +1109,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> app.o(.constdata)
 </UL>
-<P><STRONG><a name="[94]"></a>incrementalPid</STRONG> (Thumb, 150 bytes, Stack size 32 bytes, pid.o(i.incrementalPid))
+<P><STRONG><a name="[94]"></a>incrementalPid</STRONG> (Thumb, 166 bytes, Stack size 32 bytes, pid.o(i.incrementalPid))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = incrementalPid &rArr; __aeabi_fmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
@@ -1155,7 +1155,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[92]"></a>pid_init</STRONG> (Thumb, 54 bytes, Stack size 40 bytes, pid.o(i.pid_init))
+<P><STRONG><a name="[92]"></a>pid_init</STRONG> (Thumb, 60 bytes, Stack size 40 bytes, pid.o(i.pid_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = pid_init &rArr; __aeabi_d2f
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
