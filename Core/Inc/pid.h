@@ -1,6 +1,8 @@
 #ifndef _PID_H_
 #define _PID_H_
 
+#define FUZZY_ADJUST
+
 #define KP_BASE 1.5
 #define KI_BASE 0.2
 #define KD_BASE 0.5

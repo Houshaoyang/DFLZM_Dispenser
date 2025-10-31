@@ -156,7 +156,7 @@ void enter_water_out(WaterDispenser *Dispenser)
 			mDispenser.heating_pwr = HEATING_PWR_95;
 			mDispenser.heating_enabled = TURE;	
 			break;
-		defualt:break;
+		default:break;
 	}
 }
 

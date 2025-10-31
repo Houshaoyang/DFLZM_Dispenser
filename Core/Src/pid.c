@@ -32,30 +32,30 @@ typedef enum{
 // - Δki  --（      ）；-(-0.1)；+(0.05)；++(0.1)
 // - Δkd  --（      ）；-(-0.1)；+(0.1 )；++(0.2)
 // 定义调整Δkp、Δki、Δkd的程度
-#define DKP1 -0.2   
-#define DKP2 -0.1 
+#define DKP1 -0.4   
+#define DKP2 -0.2 
 #define DKP3 0.2    
 #define DKP4 0.4    
 
-#define DKI1 -0.1    
-#define DKI2 -0.05     
-#define DKI3 0.05 
-#define DKI4 0.1   	 
+#define DKI1 -0.03    
+#define DKI2 -0.01     
+#define DKI3 0.01 
+#define DKI4 0.03   	 
 
-#define DKD1 -0.1
-#define DKD2 -0.05     
+#define DKD1 -0.2
+#define DKD2 -0.1     
 #define DKD3 0.1    	 
 #define DKD4 0.2
 
 #define ZERO 0
 
 KPID rule_table[5][5] = {
-//            ec=NB        ec=NS          ec=ZR        ec=PS         ec=PB
-/*e=NB*/{ {NB, NB, PS}, {NB, NB, PS}, {NS, ZR, ZR}, {ZR, NB, NB}, {PB, PB, NS} },
-/*e=NS*/{ {NB, NB, PS}, {ZR, ZR, ZR}, {ZR, PS, NS}, {PB, PS, NS}, {PB, PB, NS} },
-/*e=ZR*/{ {NB, NB, NB}, {ZR, ZR, NB}, {NS, ZR, ZR}, {ZR, PS, PS}, {PB, NS, PS} },
-/*e=PS*/{ {NB, NB, PS}, {NB, NB, PS}, {PB, PS, ZR}, {PB, PS, ZR}, {PB, ZR, NS} },
-/*e=PB*/{ {NB, ZR, PS}, {PB, ZR, PS}, {PB, PS, PS}, {PB, PS, ZR}, {PB, PB, NS} }
+//             ec=NB 偏差快速减     ec=NS               ec=ZR              ec=PS                ec=PB 偏差快速增大
+/*e=NB*/{ {DKP1, DKI1, DKD4}, {DKP2, DKI2, DKD3}, {DKP1,    0,    0}, {   0, DKI3, DKD2}, {DKP3, DKI4, DKD1} },//实际远高于目标，需降温
+/*e=NS*/{ {DKP2, DKI2, DKD3}, {   0, 		0, 		0}, {		0, DKI3, DKD2}, {DKP3, DKI4, DKD1}, {DKP4, DKI4, DKD1} },//实际略高于目标
+/*e=ZR*/{ {		0, DKI4, DKD1}, {		0, DKI3, DKD2}, {		0, 		0, 		0}, {		0, DKI2, DKD3}, {		0, DKI1, DKD4} },//无偏差
+/*e=PS*/{ {DKP1, DKI1, DKD4}, {DKP2, DKI2, DKD3}, {DKP3, DKI3, 		0}, {DKP4, DKI4, 		0}, {DKP4, 		0, DKD2} },//实际略低于目标
+/*e=PB*/{ {DKP1, 		0, DKD4}, {DKP2, 		0, DKD3}, {DKP3, DKI3, 		0}, {DKP4, DKI4, 		0}, {DKP4, DKI4, DKD1} },//实际远低于目标，需升温
 };
 
 // 隶属度计算值数组（示例值，需根据温度误差、温度误差变化率计算得到）
@@ -81,9 +81,9 @@ void incrementalPid(PID *pid,float setValue,float actualValue,float *total_outpu
 		pid->setValue = setValue;
 		pid->actualValue = actualValue;
     pid->error = pid->setValue - pid->actualValue;
-	
+#ifdef FUZZY_ADJUST
 		fuzzy_adjust(pid);
-	
+#endif	
     pid->P = pid->Kp*(pid->error-pid->errorPre);			//比例项
     pid->I = pid->Ki*pid->error;							//积分项
     pid->D = pid->Kd*(pid->error-2*pid->errorPre + pid->errorPrePre); 			//微分项
@@ -108,6 +108,9 @@ void incrementalPid(PID *pid,float setValue,float actualValue,float *total_outpu
 void positionPid(PID *pid,float setValue,float actualValue,float *total_output)
 { 
     pid->error = pid->setValue - pid->actualValue;
+#ifdef FUZZY_ADJUST
+		fuzzy_adjust(pid);
+#endif
     pid->integral += pid->error;   		/*误差累积 与增量式pid不同，位置式需要进行错误累计积分*/
     pid->P = pid->Kp*pid->error;		//比例项
     pid->I = pid->Ki*pid->integral;		//积分项
@@ -121,57 +124,102 @@ void positionPid(PID *pid,float setValue,float actualValue,float *total_output)
 
 // 模糊逻辑：误差(e)的隶属度函数（三角形分布）
 // 模糊集：负大(NB)、负小(NS)、零(ZR)、正小(PS)、正大(PB)
-float e_NB_cal(float e){
-    if (e <= -10) return 1.0;
-    if (e >= -2) return 0.0;
-    return (e + 10) / (-2 + 10); // 斜率为负
+// 温度误差e的三角形隶属度函数
+float e_NB_cal(float e_val) {
+    // NB（负大）：左边界e_NB，右边界e_NS，隶属度随e_val增大而线性减小
+    if (e_val <= e_NB) return 1.0f;       // 完全属于NB
+    if (e_val >= e_NS) return 0.0f;       // 完全不属于NB
+    return (e_NS - e_val) / (e_NS - e_NB); // 线性下降段
 }
 
-float e_NS_cal(float e) {
-    if (e <= -10 || e >= 2) return 0.0;
-    if (e <= -2) return (e + 10) / (-2 + 10);
-    return (2 - e) / (2 + 2);
-}
-float e_ZR_cal(float e) {
-    if (e <= -2 || e >= 2) return 0.0;
-    return (e + 2) / (2 + 2);
-}
-float e_PS_cal(float e) {
-    if (e <= -2 || e >= 10) return 0.0;
-    if (e <= 2) return (e + 2) / (2 + 2);
-    return (10 - e) / (10 - 2);
-}
-float e_PB_cal(float e) {
-    if (e <= 2) return 0.0;
-    if (e >= 10) return 1.0;
-    return (e - 2) / (10 - 2);
+float e_NS_cal(float e_val) {
+    // NS（负小）：左边界e_NB，顶点e_NS，右边界e_ZR
+    if (e_val <= e_NB || e_val >= e_ZR) return 0.0f; // 完全不属于NS
+    if (e_val <= e_NS) {
+        // 左半段：从e_NB到e_NS，隶属度线性上升
+        return (e_val - e_NB) / (e_NS - e_NB);
+    } else {
+        // 右半段：从e_NS到e_ZR，隶属度线性下降
+        return (e_ZR - e_val) / (e_ZR - e_NS);
+    }
 }
 
-// 模糊逻辑：误差变化率(ec)的隶属度函数
-float ec_NB_cal(float ec) {
-    if (ec <= -5) return 1.0;
-    if (ec >= -1) return 0.0;
-    return (ec + 5) / (-1 + 5);
+float e_ZR_cal(float e_val) {
+    // ZR（零）：左边界e_NS，顶点e_ZR，右边界e_PS
+    if (e_val <= e_NS || e_val >= e_PS) return 0.0f; // 完全不属于ZR
+    if (e_val <= e_ZR) {
+        // 左半段：从e_NS到e_ZR，隶属度线性上升
+        return (e_val - e_NS) / (e_ZR - e_NS);
+    } else {
+        // 右半段：从e_ZR到e_PS，隶属度线性下降
+        return (e_PS - e_val) / (e_PS - e_ZR);
+    }
 }
-float ec_NS_cal(float ec) {
-    if (ec <= -5 || ec >= 1) return 0.0;
-    if (ec <= -1) return (ec + 5) / (-1 + 5);
-    return (1 - ec) / (1 + 1);
+
+float e_PS_cal(float e_val) {
+    // PS（正小）：左边界e_ZR，顶点e_PS，右边界e_PB
+    if (e_val <= e_ZR || e_val >= e_PB) return 0.0f; // 完全不属于PS
+    if (e_val <= e_PS) {
+        // 左半段：从e_ZR到e_PS，隶属度线性上升
+        return (e_val - e_ZR) / (e_PS - e_ZR);
+    } else {
+        // 右半段：从e_PS到e_PB，隶属度线性下降
+        return (e_PB - e_val) / (e_PB - e_PS);
+    }
 }
-float ec_ZR_cal(float ec) {
-    if (ec <= -1 || ec >= 1) return 0.0;
-    return (ec + 1) / (1 + 1);
+
+float e_PB_cal(float e_val) {
+    // PB（正大）：左边界e_PS，右边界e_PB，隶属度随e_val增大而线性增大
+    if (e_val <= e_PS) return 0.0f;       // 完全不属于PB
+    if (e_val >= e_PB) return 1.0f;       // 完全属于PB
+    return (e_val - e_PS) / (e_PB - e_PS); // 线性上升段
 }
-float ec_PS_cal(float ec) {
-    if (ec <= -1 || ec >= 5) return 0.0;
-    if (ec <= 1) return (ec + 1) / (1 + 1);
-    return (5 - ec) / (5 - 1);
+
+// 温度误差变化率ec的三角形隶属度函数
+float ec_NB_cal(float ec_val) {
+    // NB（负大）：左边界ec_NB，右边界ec_NS
+    if (ec_val <= ec_NB) return 1.0f;
+    if (ec_val >= ec_NS) return 0.0f;
+    return (ec_NS - ec_val) / (ec_NS - ec_NB);
 }
-float ec_PB_cal(float ec) {
-    if (ec <= 1) return 0.0;
-    if (ec >= 5) return 1.0;
-    return (ec - 1) / (5 - 1);
+
+float ec_NS_cal(float ec_val) {
+    // NS（负小）：左边界ec_NB，顶点ec_NS，右边界ec_ZR
+    if (ec_val <= ec_NB || ec_val >= ec_ZR) return 0.0f;
+    if (ec_val <= ec_NS) {
+        return (ec_val - ec_NB) / (ec_NS - ec_NB);
+    } else {
+        return (ec_ZR - ec_val) / (ec_ZR - ec_NS);
+    }
 }
+
+float ec_ZR_cal(float ec_val) {
+    // ZR（零）：左边界ec_NS，顶点ec_ZR，右边界ec_PS
+    if (ec_val <= ec_NS || ec_val >= ec_PS) return 0.0f;
+    if (ec_val <= ec_ZR) {
+        return (ec_val - ec_NS) / (ec_ZR - ec_NS);
+    } else {
+        return (ec_PS - ec_val) / (ec_PS - ec_ZR);
+    }
+}
+
+float ec_PS_cal(float ec_val) {
+    // PS（正小）：左边界ec_ZR，顶点ec_PS，右边界ec_PB
+    if (ec_val <= ec_ZR || ec_val >= ec_PB) return 0.0f;
+    if (ec_val <= ec_PS) {
+        return (ec_val - ec_ZR) / (ec_PS - ec_ZR);
+    } else {
+        return (ec_PB - ec_val) / (ec_PB - ec_PS);
+    }
+}
+
+float ec_PB_cal(float ec_val) {
+    // PB（正大）：左边界ec_PS，右边界ec_PB
+    if (ec_val <= ec_PS) return 0.0f;
+    if (ec_val >= ec_PB) return 1.0f;
+    return (ec_val - ec_PS) / (ec_PB - ec_PS);
+}
+
 
 // 定义隶属度计算的函数指针
 typedef float (*Membership_cal)(float e);

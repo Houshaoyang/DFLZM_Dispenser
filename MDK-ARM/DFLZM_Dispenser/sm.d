@@ -36,3 +36,4 @@ dflzm_dispenser\sm.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
 dflzm_dispenser\sm.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h
 dflzm_dispenser\sm.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h
 dflzm_dispenser\sm.o: ../Core/Inc/GpioCtrlMacros.h
+dflzm_dispenser\sm.o: ../Core/Inc/pid.h

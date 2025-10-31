@@ -38,3 +38,4 @@ dflzm_dispenser\main.o: ../Core/Inc/gpio.h
 dflzm_dispenser\main.o: ../Core/Inc/sm.h
 dflzm_dispenser\main.o: ../Core/Inc/app.h
 dflzm_dispenser\main.o: ../Core/Inc/GpioCtrlMacros.h
+dflzm_dispenser\main.o: ../Core/Inc/pid.h

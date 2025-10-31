@@ -16,7 +16,7 @@ static FLASH_EraseInitTypeDef EraseInitStruct;
 uint8_t save_flash_data(void)
 {
 	uint8_t flash_err =0;
-	uint16_t data=2;
+//	uint16_t data=2;
 	uint32_t Address = FLASH_STORAGE_START_ADDR, PageError = 0;
 	uint16_t *data_ptr = (uint16_t *)&Storage_Data;
 	uint16_t data_size = sizeof(storage_data) / sizeof(uint16_t);
