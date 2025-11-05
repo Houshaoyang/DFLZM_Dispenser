@@ -310,11 +310,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		}
 		
 		if(htim->Instance == TIM17) {
-			if(mDispenser.pump_speed >0 && mDispenser.pump_speed < PUMP_SPEED_MIN){
-				mDispenser.pump_speed =	PUMP_SPEED_MIN; //limit the min pump speed 50%
-				}
-			pump_cnt = (pump_cnt + 1) % 100;		//pump power control pwm frequence 1000/5 HZ 
-			if(pump_cnt < mDispenser.pump_speed)
+//			if(mDispenser.pump_speed >0 && mDispenser.pump_speed < PUMP_SPEED_MIN){
+//				mDispenser.pump_speed =	PUMP_SPEED_MIN; //limit the min pump speed 50%
+//				}
+			pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1k HZ 
+			if(pump_cnt < mDispenser.pump_speed/10)
 			{
 				PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 			}else{

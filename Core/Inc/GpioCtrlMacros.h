@@ -30,16 +30,16 @@
 #define PUMP_SPEED_25 100 //25¡æ xx%
 #define PUMP_SPEED_45 100  //45¡æ 100xx%
 #define PUMP_SPEED_55 100  //55¡æ 100xx%
-#define PUMP_SPEED_85 80  //85¡æ xx%
-#define PUMP_SPEED_95 70  //95¡æ xx%
+#define PUMP_SPEED_85 90  //85¡æ xx%
+#define PUMP_SPEED_95 90  //95¡æ xx%
 #define PUMP_SPEED_MIN 50  //limit the min pump speed to 50%
 
 /***************** heating power setting in different target temperature *********************/
 #define HEATING_PWR_25 0 //25¡æ xx%
 #define HEATING_PWR_45 50  //45¡æ 50xx%
 #define HEATING_PWR_55 60  //55¡æ 70xx%
-#define HEATING_PWR_85 100  //85¡æ xx%
-#define HEATING_PWR_95 100  //95¡æ xx%
+#define HEATING_PWR_85 85  //85¡æ xx%
+#define HEATING_PWR_95 90  //95¡æ xx%
 
 /***************** PID control parameters  *********************/
 #define PID_TEMPER_THRESHOLD 45
