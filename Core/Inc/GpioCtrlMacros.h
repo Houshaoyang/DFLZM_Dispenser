@@ -28,6 +28,8 @@
 
 /*****************DryBurn Time *********************/
 #define DRYBURN_TIME  1    //s
+#define BUZZER_HZ  392/4    //s
+
 
 /***************** flow setting in different target temperature *********************/
 #define PUMP_SPEED_25 100 //25¡æ xx%

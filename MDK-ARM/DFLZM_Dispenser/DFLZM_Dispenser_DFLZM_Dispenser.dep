@@ -1,13 +1,13 @@
 Dependencies for Project 'DFLZM_Dispenser', Target 'DFLZM_Dispenser': (DO NOT MODIFY !)
-F (startup_stm32f030x6.s)(0x690D456B)(--cpu Cortex-M0 -g --apcs=interwork -I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "STM32F030x6 SETA 1"--list startup_stm32f030x6.lst --xref -o dflzm_dispenser\startup_stm32f030x6.o --depend dflzm_dispenser\startup_stm32f030x6.d)
-F (..\Core\Src\app.c)(0x690D55CE)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\app.o --omf_browse dflzm_dispenser\app.crf --depend dflzm_dispenser\app.d)
-I (../Core/Inc/app.h)(0x690C3B71)
+F (startup_stm32f030x6.s)(0x690DB3BE)(--cpu Cortex-M0 -g --apcs=interwork -I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "STM32F030x6 SETA 1"--list startup_stm32f030x6.lst --xref -o dflzm_dispenser\startup_stm32f030x6.o --depend dflzm_dispenser\startup_stm32f030x6.d)
+F (..\Core\Src\app.c)(0x690DAE7F)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\app.o --omf_browse dflzm_dispenser\app.crf --depend dflzm_dispenser\app.d)
+I (../Core/Inc/app.h)(0x690DA985)
 I (D:\install\keil526\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
 I (../Core/Inc/sm.h)(0x690181C4)
 I (../Core/Inc/gpio.h)(0x68AD79BC)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -36,18 +36,19 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
-I (../Core/Inc/GpioCtrlMacros.h)(0x690D5ACE)
+I (../Core/Inc/GpioCtrlMacros.h)(0x690DB219)
 I (../Core/Inc/pid.h)(0x690ABF87)
 I (D:\install\keil526\ARM\ARMCC\include\stdlib.h)(0x599EDB3C)
 I (../Core/Inc/adc.h)(0x68AD79BE)
+I (../Core/Inc/tim.h)(0x690C3756)
 F (..\Core\Src\sm.c)(0x690C45F8)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\sm.o --omf_browse dflzm_dispenser\sm.crf --depend dflzm_dispenser\sm.d)
 I (../Core/Inc/sm.h)(0x690181C4)
 I (D:\install\keil526\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
-I (../Core/Inc/app.h)(0x690C3B71)
+I (../Core/Inc/app.h)(0x690DA985)
 I (../Core/Inc/gpio.h)(0x68AD79BC)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -76,12 +77,12 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
-I (../Core/Inc/GpioCtrlMacros.h)(0x690D5ACE)
+I (../Core/Inc/GpioCtrlMacros.h)(0x690DB219)
 I (../Core/Inc/pid.h)(0x690ABF87)
 F (..\Core\Inc\flash.h)(0x68C00400)()
 F (..\Core\Src\flash.c)(0x6904DF8F)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\flash.o --omf_browse dflzm_dispenser\flash.crf --depend dflzm_dispenser\flash.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -116,10 +117,10 @@ F (..\Core\Src\pid.c)(0x690C0224)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwo
 I (D:\install\keil526\ARM\ARMCC\include\stdlib.h)(0x599EDB3C)
 I (D:\install\keil526\ARM\ARMCC\include\string.h)(0x599EDB3C)
 I (../Core/Inc/pid.h)(0x690ABF87)
-F (../Core/Src/main.c)(0x690D531E)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\main.o --omf_browse dflzm_dispenser\main.crf --depend dflzm_dispenser\main.d)
+F (../Core/Src/main.c)(0x690DB1B6)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\main.o --omf_browse dflzm_dispenser\main.crf --depend dflzm_dispenser\main.d)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -153,14 +154,14 @@ I (../Core/Inc/adc.h)(0x68AD79BE)
 I (../Core/Inc/tim.h)(0x690C3756)
 I (../Core/Inc/gpio.h)(0x68AD79BC)
 I (../Core/Inc/sm.h)(0x690181C4)
-I (../Core/Inc/app.h)(0x690C3B71)
-I (../Core/Inc/GpioCtrlMacros.h)(0x690D5ACE)
+I (../Core/Inc/app.h)(0x690DA985)
+I (../Core/Inc/GpioCtrlMacros.h)(0x690DB219)
 I (../Core/Inc/pid.h)(0x690ABF87)
 F (../Core/Src/gpio.c)(0x690C3754)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\gpio.o --omf_browse dflzm_dispenser\gpio.crf --depend dflzm_dispenser\gpio.d)
 I (../Core/Inc/gpio.h)(0x68AD79BC)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -194,7 +195,7 @@ F (../Core/Src/adc.c)(0x68AFB46C)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwo
 I (../Core/Inc/adc.h)(0x68AD79BE)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -224,11 +225,11 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
-F (../Core/Src/tim.c)(0x690C6502)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\tim.o --omf_browse dflzm_dispenser\tim.crf --depend dflzm_dispenser\tim.d)
+F (../Core/Src/tim.c)(0x690DB306)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\tim.o --omf_browse dflzm_dispenser\tim.crf --depend dflzm_dispenser\tim.d)
 I (../Core/Inc/tim.h)(0x690C3756)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -261,7 +262,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Core/Src/stm32f0xx_it.c)(0x68F99345)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_it.o --omf_browse dflzm_dispenser\stm32f0xx_it.crf --depend dflzm_dispenser\stm32f0xx_it.d)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -295,7 +296,7 @@ I (../Core/Inc/stm32f0xx_it.h)(0x68F99345)
 F (../Core/Src/stm32f0xx_hal_msp.c)(0x68F05E3E)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_msp.o --omf_browse dflzm_dispenser\stm32f0xx_hal_msp.crf --depend dflzm_dispenser\stm32f0xx_hal_msp.d)
 I (../Core/Inc/main.h)(0x68AD7876)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -327,7 +328,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Core/Src/stm32f0xx_hal_timebase_tim.c)(0x68AD7876)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_timebase_tim.o --omf_browse dflzm_dispenser\stm32f0xx_hal_timebase_tim.crf --depend dflzm_dispenser\stm32f0xx_hal_timebase_tim.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -359,7 +360,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_adc.o --omf_browse dflzm_dispenser\stm32f0xx_hal_adc.crf --depend dflzm_dispenser\stm32f0xx_hal_adc.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -391,7 +392,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_adc_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_adc_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_adc_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -423,7 +424,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_rcc.o --omf_browse dflzm_dispenser\stm32f0xx_hal_rcc.crf --depend dflzm_dispenser\stm32f0xx_hal_rcc.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -455,7 +456,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_rcc_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_rcc_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_rcc_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -487,7 +488,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal.o --omf_browse dflzm_dispenser\stm32f0xx_hal.crf --depend dflzm_dispenser\stm32f0xx_hal.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -519,7 +520,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_i2c.o --omf_browse dflzm_dispenser\stm32f0xx_hal_i2c.crf --depend dflzm_dispenser\stm32f0xx_hal_i2c.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -551,7 +552,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_i2c_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_i2c_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_i2c_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -583,7 +584,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_gpio.o --omf_browse dflzm_dispenser\stm32f0xx_hal_gpio.crf --depend dflzm_dispenser\stm32f0xx_hal_gpio.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -615,7 +616,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_dma.o --omf_browse dflzm_dispenser\stm32f0xx_hal_dma.crf --depend dflzm_dispenser\stm32f0xx_hal_dma.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -647,7 +648,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_cortex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_cortex.crf --depend dflzm_dispenser\stm32f0xx_hal_cortex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -679,7 +680,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_pwr.o --omf_browse dflzm_dispenser\stm32f0xx_hal_pwr.crf --depend dflzm_dispenser\stm32f0xx_hal_pwr.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -711,7 +712,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_pwr_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_pwr_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_pwr_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -743,7 +744,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_flash.o --omf_browse dflzm_dispenser\stm32f0xx_hal_flash.crf --depend dflzm_dispenser\stm32f0xx_hal_flash.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -775,7 +776,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_flash_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_flash_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_flash_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -807,7 +808,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_exti.o --omf_browse dflzm_dispenser\stm32f0xx_hal_exti.crf --depend dflzm_dispenser\stm32f0xx_hal_exti.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -839,7 +840,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_tim.o --omf_browse dflzm_dispenser\stm32f0xx_hal_tim.crf --depend dflzm_dispenser\stm32f0xx_hal_tim.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -871,7 +872,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x689F1C5D)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c)(0x689F1C5D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_DFLZM_Dispenser-ID:\install\keil526\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\install\keil526\ARM\PACK\Keil\STM32F0xx_DFP\2.1.1\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o dflzm_dispenser\stm32f0xx_hal_tim_ex.o --omf_browse dflzm_dispenser\stm32f0xx_hal_tim_ex.crf --depend dflzm_dispenser\stm32f0xx_hal_tim_ex.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x689F1C5D)
@@ -911,7 +912,7 @@ I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x689F1C4F)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x689F1C4F)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x689F1C5D)
-I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690D4568)
+I (../Core/Inc/stm32f0xx_hal_conf.h)(0x690DB3BC)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h)(0x689F1C5D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x689F1C5D)

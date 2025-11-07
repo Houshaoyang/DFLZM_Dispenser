@@ -39,3 +39,4 @@ dflzm_dispenser\app.o: ../Core/Inc/GpioCtrlMacros.h
 dflzm_dispenser\app.o: ../Core/Inc/pid.h
 dflzm_dispenser\app.o: D:\install\keil526\ARM\ARMCC\Bin\..\include\stdlib.h
 dflzm_dispenser\app.o: ../Core/Inc/adc.h
+dflzm_dispenser\app.o: ../Core/Inc/tim.h

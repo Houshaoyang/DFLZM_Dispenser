@@ -120,7 +120,7 @@ extern uint8_t LedTimeBase_500ms;  //20ms key base time  flag
 extern uint16_t time_cnt_1s;
 extern uint16_t time_cnt_500ms;
 extern uint16_t time_cnt_10ms;
-extern alarm_xx IntZero_timer_ms,DryBurn_Timer_s;
+extern alarm_xx IntZero_timer_ms,DryBurn_Timer_s,Buzzer_alarm_s;
 
 
 extern uint8_t target_temper_tbl[];

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "adc.h"
 #include "pid.h"
+#include "tim.h"
 //===========================================================
 //----------Temperature comparison table (ADC values corresponding to 0 to 100℃)
 static const unsigned int temptab[]={  //0 to 100℃ 
@@ -157,7 +158,7 @@ uint16_t time_cnt_1s = 0;           //1 second counter
 uint16_t time_cnt_500ms = 0;        //500 millisecond counter
 uint16_t time_cnt_10ms = 0;         //10 millisecond counter
 
-alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,DRYBURN_TIME};
+alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,DRYBURN_TIME},Buzzer_alarm_s = {TIMERSTOP,FALSE,0,BUZZER_HZ};
 
 //Target temperature table
 uint8_t target_temper_tbl[] = {25,45,55,85,95};
@@ -502,6 +503,7 @@ void Key_status_handler(key* _key)
 	if(_key->pressed_flag ==1)
 	{
 		_key->pressed_flag =0;
+		HAL_TIM_Base_Start_IT(&htim17);
 		WaterDispenser_Eventhandler(&mDispenser,_key->long_press_event);
 	}
 	#endif
@@ -853,16 +855,16 @@ void safety_check(void)
 		WaterDispenser_Eventhandler(&mDispenser,ERROR_EVT);			
 	}
 	
-//	if(mDispenser.pump_speed > 0 && HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== OFF)	//check if Micro_SW off 
-//	{
-//		mDispenser.fault_code = ERR_WATER_OUTLET_FOLD;
-//	}
-//	
-//	if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD \
-//		&& (HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== ON))
-//	{
-//		mDispenser.fault_code = NO_FAULT;
-//	}
+	if(mDispenser.pump_speed > 0 && HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== SET)	//check if Micro_SW off 
+	{
+		mDispenser.fault_code = ERR_WATER_OUTLET_FOLD;
+	}
+	
+	if(mDispenser.fault_code == ERR_WATER_OUTLET_FOLD \
+		&& (HAL_GPIO_ReadPin(TW_Valve) == OUT && HAL_GPIO_ReadPin(Micro_SW)== RESET))
+	{
+		mDispenser.fault_code = NO_FAULT;
+	}
 }
 
 void Adjust_PWM_DutyCycle(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t dutyCycle)

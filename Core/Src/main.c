@@ -145,7 +145,7 @@ int main(void)
 	HAL_TIM_Base_Start(&htim14); // 启动定时器
 	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1); // 启动PWM输出
 	HAL_TIM_Base_Start_IT(&htim16);
-	HAL_TIM_Base_Start_IT(&htim17);	
+//	HAL_TIM_Base_Start_IT(&htim17);	
 	HAL_ADCEx_Calibration_Start(&hadc);
 	System_Init();
 
@@ -323,6 +323,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			}else{
 //				PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
 //			}
+			//392HZ
+			HAL_GPIO_TogglePin(BUZZER);
+			if(Buzzer_alarm_s.start_flag != TIMERSTART)
+			{
+				Buzzer_alarm_s.start_flag = TIMERSTART;
+
+			}else{
+				if(Buzzer_alarm_s.cnt < Buzzer_alarm_s.time_setting){
+							Buzzer_alarm_s.cnt++;
+						}else{
+								Buzzer_alarm_s.cnt =0;
+								Buzzer_alarm_s.start_flag = TIMERSTOP;
+								HAL_TIM_Base_Stop_IT(&htim17);
+						}
+			}
+			
 		}
 		
   /* USER CODE END Callback 1 */
