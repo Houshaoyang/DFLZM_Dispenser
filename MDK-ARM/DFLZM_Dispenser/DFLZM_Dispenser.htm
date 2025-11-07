@@ -3,7 +3,7 @@
 <title>Static Call Graph - [DFLZM_Dispenser\DFLZM_Dispenser.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image DFLZM_Dispenser\DFLZM_Dispenser.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 07 09:01:43 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 07 10:38:43 2025
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -363,7 +363,7 @@ Global Symbols
 
 <P><STRONG><a name="[e9]"></a>_ffix</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, ffixi.o(.text), UNUSED)
 
-<P><STRONG><a name="[b3]"></a>__aeabi_f2uiz</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, ffixui.o(.text))
+<P><STRONG><a name="[b4]"></a>__aeabi_f2uiz</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, ffixui.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -468,7 +468,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b4]"></a>Adjust_PWM_DutyCycle</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, app.o(i.Adjust_PWM_DutyCycle))
+<P><STRONG><a name="[b5]"></a>Adjust_PWM_DutyCycle</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, app.o(i.Adjust_PWM_DutyCycle))
 <BR><BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1027,7 +1027,7 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>WaterDispenser_Eventhandler</STRONG> (Thumb, 50 bytes, Stack size 24 bytes, sm.o(i.WaterDispenser_Eventhandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = WaterDispenser_Eventhandler
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safety_check
+<BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safety_check
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;idle_alarm_timeout
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Key_status_handler
 </UL>
@@ -1229,16 +1229,16 @@ Global Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_Calibration_Start
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safety_check
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safety_check
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculate_pid
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;System_Init
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Keys_handler
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Alarm_Process
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Adjust_PWM_DutyCycle
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Adjust_PWM_DutyCycle
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Get_Value
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -1259,7 +1259,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> app.o(.constdata)
 </UL>
-<P><STRONG><a name="[b5]"></a>safety_check</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, app.o(i.safety_check))
+<P><STRONG><a name="[b3]"></a>safety_check</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, app.o(i.safety_check))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = safety_check &rArr; WaterDispenser_Eventhandler
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WaterDispenser_Eventhandler

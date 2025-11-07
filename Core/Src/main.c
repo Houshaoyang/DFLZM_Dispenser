@@ -167,13 +167,12 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
+		safety_check();
 		Adjust_PWM_DutyCycle(&htim14, TIM_CHANNEL_1,mDispenser.pump_speed);
 		if(pid_timer_flag == TURE){	//500ms PID计算水泵和加热管功率
 			pid_timer_flag = FALSE;
 			calculate_pid();
 		}
-
-		safety_check();
   }
   /* USER CODE END 3 */
 }

@@ -24,7 +24,10 @@
 #define LED_BLINK_FREQ_MS 500   //ms
 
 /*****************flow HZ table*********************/
-#define FLOW_0_HZ 5 //0 flow HZ
+#define FLOW_0_HZ 100 //0 flow 70 HZ
+
+/*****************DryBurn Time *********************/
+#define DRYBURN_TIME  1    //s
 
 /***************** flow setting in different target temperature *********************/
 #define PUMP_SPEED_25 100 //25¡æ xx%
@@ -44,7 +47,7 @@
 /***************** PID control parameters  *********************/
 #define PID_TEMPER_THRESHOLD 45
 #define INTEGRAL_ENABLE_THRESHOLD 5
-#define PID_KP_H 2       //heater Proportional gain
+#define PID_KP_H 2.0       //heater Proportional gain
 #define PID_KI_H 0.2       //heater Integral gain
 #define PID_KD_H 0.5       //heater Derivative gain
 

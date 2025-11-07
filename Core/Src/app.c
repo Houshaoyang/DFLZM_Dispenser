@@ -157,7 +157,7 @@ uint16_t time_cnt_1s = 0;           //1 second counter
 uint16_t time_cnt_500ms = 0;        //500 millisecond counter
 uint16_t time_cnt_10ms = 0;         //10 millisecond counter
 
-alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,10};
+alarm_xx IntZero_timer_ms = {TIMERSTOP,FALSE,0,13},DryBurn_Timer_s = {TIMERSTOP,FALSE,0,DRYBURN_TIME};
 
 //Target temperature table
 uint8_t target_temper_tbl[] = {25,45,55,85,95};
