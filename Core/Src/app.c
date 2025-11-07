@@ -865,3 +865,8 @@ void safety_check(void)
 //	}
 }
 
+void Adjust_PWM_DutyCycle(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t dutyCycle)
+{
+//	if(dutyCycle>99) dutyCycle =99;
+	__HAL_TIM_SET_COMPARE(htim, channel, dutyCycle);
+}

@@ -140,11 +140,15 @@ int main(void)
   MX_ADC_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
+  MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
+	HAL_TIM_Base_Start(&htim14); // 启动定时器
+	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1); // 启动PWM输出
 	HAL_TIM_Base_Start_IT(&htim16);
 	HAL_TIM_Base_Start_IT(&htim17);	
 	HAL_ADCEx_Calibration_Start(&hadc);
 	System_Init();
+
 
 //	save_flash_data();
 //	read_flash_data();
@@ -163,13 +167,13 @@ int main(void)
 		led_blink();
 		Alarm_Process();
 		ADC_Get_Value();
-		if(pid_timer_flag == TURE){	//500ms
+		Adjust_PWM_DutyCycle(&htim14, TIM_CHANNEL_1,mDispenser.pump_speed);
+		if(pid_timer_flag == TURE){	//500ms PID计算水泵和加热管功率
 			pid_timer_flag = FALSE;
 			calculate_pid();
 		}
-		
-//		safety_check();
 
+		safety_check();
   }
   /* USER CODE END 3 */
 }
@@ -313,13 +317,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			if(mDispenser.pump_speed >0 && mDispenser.pump_speed < PUMP_SPEED_MIN){
 //				mDispenser.pump_speed =	PUMP_SPEED_MIN; //limit the min pump speed 50%
 //				}
-			pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1k HZ 
-			if(pump_cnt < mDispenser.pump_speed/10)
-			{
-				PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
-			}else{
-				PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
-			}
+//			pump_cnt = (pump_cnt + 1) % 10;		//pump power control pwm frequence 1k HZ 
+//			if(pump_cnt < mDispenser.pump_speed/10)
+//			{
+//				PUMP_ON; //GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+//			}else{
+//				PUMP_OFF;  // GPIO_PIN_RESET: pump ON  GPIO_PIN_SET:pump OFF
+//			}
 		}
 		
   /* USER CODE END Callback 1 */

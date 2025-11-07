@@ -245,6 +245,7 @@ const Membership_cal Membership_cal_ec[] =
 	NULL
 };
 
+//模糊控制算法调整Kp、Ki、Kd参数
 void fuzzy_adjust(PID *pid){
 	int i,j;
 	float _e = pid->error;

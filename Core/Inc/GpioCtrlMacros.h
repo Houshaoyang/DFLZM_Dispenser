@@ -24,14 +24,14 @@
 #define LED_BLINK_FREQ_MS 500   //ms
 
 /*****************flow HZ table*********************/
-#define FLOW_0_HZ 12 //0 flow HZ
+#define FLOW_0_HZ 5 //0 flow HZ
 
 /***************** flow setting in different target temperature *********************/
 #define PUMP_SPEED_25 100 //25¡æ xx%
 #define PUMP_SPEED_45 100  //45¡æ 100xx%
 #define PUMP_SPEED_55 100  //55¡æ 100xx%
-#define PUMP_SPEED_85 90  //85¡æ xx%
-#define PUMP_SPEED_95 90  //95¡æ xx%
+#define PUMP_SPEED_85 85  //85¡æ xx%
+#define PUMP_SPEED_95 85  //95¡æ xx%
 #define PUMP_SPEED_MIN 50  //limit the min pump speed to 50%
 
 /***************** heating power setting in different target temperature *********************/
@@ -44,9 +44,10 @@
 /***************** PID control parameters  *********************/
 #define PID_TEMPER_THRESHOLD 45
 #define INTEGRAL_ENABLE_THRESHOLD 5
-#define PID_KP_H 1.5       //heater Proportional gain
+#define PID_KP_H 2       //heater Proportional gain
 #define PID_KI_H 0.2       //heater Integral gain
 #define PID_KD_H 0.5       //heater Derivative gain
+
 #define PID_KP_P 2.0       //pump Proportional gain
 #define PID_KI_P 0.1       //pump Integral gain
 #define PID_KD_P 0.5       //pump Derivative gain

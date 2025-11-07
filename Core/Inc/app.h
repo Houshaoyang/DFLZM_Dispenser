@@ -164,4 +164,5 @@ uint16_t Get_Adc_Ddata(unsigned char adcChannel);
 void calculate_pid(void); 
 #endif
 void safety_check(void);
+void Adjust_PWM_DutyCycle(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t dutyCycle);
 #endif
